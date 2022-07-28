@@ -27,32 +27,27 @@ function LoginPage() {
   });
   //
   return (
-    <Box
-      backgroundColor="#ffc73f"
-      borderRadius="8px"
-      width="100%"
-      maxWidth={1000}
-    >
+    <Box borderRadius="8px" width="100%" maxWidth={1000}>
       <Grid container height="504px">
         <Grid item xs={6}>
           <AuthPlacard />
         </Grid>
         <Grid item xs={6}>
           <Box
+            backgroundColor="#ffc73f"
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: " center",
-              m: 10,
             }}
-            backgroundColor="white"
-            borderRadius="4px"
+            height="100%"
           >
             <Box
+              backgroundColor="white"
+              mx={10}
               p={5}
               component="form"
               onSubmit={formik.handleSubmit}
-              height="full"
             >
               <Typography fontSize="18px" fontWeight="bold" mb={1}>
                 ورود
