@@ -27,7 +27,7 @@ function LoginPage() {
   });
   //
   return (
-    <Box borderRadius="8px" width="100%" maxWidth={1000}>
+    <Box borderRadius="8px" width="100%" maxWidth={1000} overflow="hidden">
       <Grid container height="504px">
         <Grid item xs={6}>
           <AuthPlacard />
@@ -43,6 +43,7 @@ function LoginPage() {
             height="100%"
           >
             <Box
+              borderRadius="8px"
               backgroundColor="white"
               mx={10}
               p={5}

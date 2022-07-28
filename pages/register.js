@@ -41,7 +41,7 @@ function RegisterPage() {
   });
 
   return (
-    <Box borderRadius="8px" width="100%" maxWidth={1000}>
+    <Box borderRadius="8px" width="100%" maxWidth={1000} overflow="hidden">
       <Grid container height="600px">
         <Grid item xs={6}>
           <Box
@@ -51,10 +51,11 @@ function RegisterPage() {
               alignItems: "center",
               justifyContent: " center",
             }}
-            borderRadius="4px"
+            // borderRadius="4px"
             height="100%"
           >
             <Box
+              borderRadius="8px"
               backgroundColor="white"
               mx={10}
               p={5}
@@ -133,12 +134,12 @@ function RegisterPage() {
                 sx={{ borderRadius: "50px", mt: 2 }}
                 color="neutral"
               >
-                ورود
+                ثبت نام
               </Button>
               <Box sx={{ textAlign: "center" }}>
-                <Link href="/register" passHref>
+                <Link href="/login" passHref>
                   <Typography component="a" fontSize="12px">
-                    ثبت نام نکرده اید؟ کلیک کنید.
+                    حساب کاربری دارید؟ ورود
                   </Typography>
                 </Link>
               </Box>
