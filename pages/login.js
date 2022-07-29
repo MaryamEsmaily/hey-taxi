@@ -8,6 +8,7 @@ import PasswordInput from "components/PasswordInput/PasswordInput";
 import useToast from "hook/useToast";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import AuthPlacard from "components/AuthPlacard";
+import { useRouter } from "next/router";
 //
 const initialValues = {
   mobileNumber: "",
@@ -17,8 +18,11 @@ const initialValues = {
 function LoginPage() {
   //
   const toast = useToast();
+  const { push } = useRouter();
   //
-  const handleSubmit = (values) => {};
+  const handleSubmit = (values) => {
+    push("/dashboard");
+  };
   //
   const formik = useFormik({
     initialValues: initialValues,
@@ -57,12 +61,6 @@ function LoginPage() {
                 برای استفاده از امکانات سامانه وارد شوید
               </Typography>
               <TextField
-                size="small"
-                sx={{
-                  "& div": {
-                    borderRadius: "50px",
-                  },
-                }}
                 label="شماره تماس"
                 {...formik.getFieldProps("mobileNumber")}
                 {...getValidationFieldProps(formik, "mobileNumber")}

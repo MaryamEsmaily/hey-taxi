@@ -14,12 +14,6 @@ function PasswordInput(props) {
 
   return (
     <TextField
-      size="small"
-      sx={{
-        "& div": {
-          borderRadius: "50px",
-        },
-      }}
       type={showPassword ? "text" : "password"}
       InputProps={{
         endAdornment: (

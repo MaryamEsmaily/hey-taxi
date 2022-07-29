@@ -69,12 +69,6 @@ function RegisterPage() {
                 مشخصات خود را وارد کنید
               </Typography>
               <TextField
-                size="small"
-                sx={{
-                  "& div": {
-                    borderRadius: "50px",
-                  },
-                }}
                 label="نام کاربری"
                 {...formik.getFieldProps("mobileNumber")}
                 {...getValidationFieldProps(formik, "mobileNumber")}
@@ -89,14 +83,7 @@ function RegisterPage() {
                 {...formik.getFieldProps("password")}
                 {...getValidationFieldProps(formik, "password")}
               />
-              <FormControl
-                size="small"
-                sx={{
-                  "& div": {
-                    borderRadius: "50px",
-                  },
-                }}
-              >
+              <FormControl size="small">
                 <InputLabel id="demo-simple-select-label">نقش کاربر</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
