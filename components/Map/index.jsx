@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 function Map() {
@@ -6,7 +6,7 @@ function Map() {
     <MapContainer
       style={{ height: "100vh" }}
       center={[35.7219, 51.3347]}
-      zoom={13}
+      zoom={15}
       scrollWheelZoom={false}
     >
       <TileLayer
