@@ -37,6 +37,14 @@ const theme = createTheme({
       defaultProps: {
         margin: "dense",
         fullWidth: true,
+        size: "small",
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: "50px",
+        },
       },
     },
     MuiFormControl: {
