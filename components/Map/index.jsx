@@ -2,37 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import RoutingMachine from "./RoutingMachine";
 
-function AddMarker({ saveMarkers, data, setOrigin, setDestination }) {
-  const map = useMapEvents({
-    click: (e) => {
-      const { lat, lng } = e.latlng;
-      if (data.length < 2) {
-        L.marker([lat, lng], {
-          icon: L.icon({
-            iconSize: [25, 41],
-            iconAnchor: [10, 41],
-            popupAnchor: [2, -40],
-            iconUrl:
-              "https://unpkg.com/leaflet@1.7/dist/images/marker-icon.png",
-            shadowUrl:
-              "https://unpkg.com/leaflet@1.7/dist/images/marker-shadow.png",
-          }),
-        }).addTo(map);
-        saveMarkers([lat, lng]);
-        if (data.length < 1) {
-          setOrigin([lat, lng]);
-        }
-        setDestination([lat, lng]);
-      }
-    },
-  });
-  return null;
-}
-
 const Map = ({ setOrigin, setDestination, destination, origin }) => {
   const [map, setMap] = useState(null);
 
-  const [data, setData] = useState([]);
   const routingMachineRef = useRef();
   const pluginRef = useRef();
 
@@ -41,10 +13,6 @@ const Map = ({ setOrigin, setDestination, destination, origin }) => {
     const controlContainer = routingMachineRef.current.onAdd(map);
     pluginRef.current.appendChild(controlContainer);
   }, [map]);
-
-  const saveMarkers = (newMarkerCoords) => {
-    setData([...data, newMarkerCoords]);
-  };
 
   return (
     <MapContainer
@@ -59,15 +27,12 @@ const Map = ({ setOrigin, setDestination, destination, origin }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <RoutingMachine
-        destination={destination}
-        origin={origin}
-        ref={routingMachineRef}
-      />
-      <AddMarker
-        saveMarkers={saveMarkers}
-        data={data}
+        destinationCity={destination}
+        sourceCity={origin}
         setOrigin={setOrigin}
         setDestination={setDestination}
+        ref={routingMachineRef}
+        map={map}
       />
     </MapContainer>
   );
