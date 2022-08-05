@@ -15,8 +15,10 @@ import CircleIcon from "@mui/icons-material/Circle";
 import SquareIcon from "@mui/icons-material/Square";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
+import { useRouter } from "next/router";
 //
 function TripDetails() {
+  const { push } = useRouter();
   return (
     <Box pt={5} px={6} sx={{ bgcolor: "background.paper" }} height="100%">
       <Box
@@ -27,7 +29,7 @@ function TripDetails() {
           justifyContent: "space-between",
         }}
       >
-        <IconButton>
+        <IconButton onClick={() => push("/profile")}>
           <AccountCircleOutlinedIcon color="warning" />
         </IconButton>
         <Box sx={{ display: "flex", alignItems: "center" }}>
