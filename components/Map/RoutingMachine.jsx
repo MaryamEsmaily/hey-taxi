@@ -7,7 +7,7 @@ const createRoutineMachineLayer = ({ destination, origin }) => {
     waypoints: [L.latLng(35.7219, 51.3347), L.latLng(35.73, 51.38)],
     // serviceUrl: "http://my-osrm/route/v1",
     lineOptions: {
-      styles: [{ color: "orange", weight: 4 }],
+      styles: [{ color: "#fff200", weight: 5 }],
     },
     show: false,
     addWaypoints: false,
