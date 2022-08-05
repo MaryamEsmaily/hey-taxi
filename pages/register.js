@@ -23,6 +23,7 @@ import useToast from "hook/useToast";
 import { useFormik } from "formik";
 import registerSchema from "schema/registerSchema";
 import RegisterPlacard from "components/RegisterPlacard";
+import { useRouter } from "next/router";
 //
 const initialValues = {
   mobileNumber: "",
@@ -32,7 +33,11 @@ const initialValues = {
 function RegisterPage() {
   const toast = useToast();
   //
-  const handleSubmit = (values) => {};
+  const { push } = useRouter();
+  //
+  const handleSubmit = (values) => {
+    push("/login");
+  };
   //
   const formik = useFormik({
     initialValues: initialValues,
