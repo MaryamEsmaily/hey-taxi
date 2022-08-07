@@ -11,6 +11,7 @@ import {
 import reactQueryConfig from "config/reactQueryConfig";
 import { useState } from "react";
 import { SnackbarProvider } from "notistack";
+import UserProvider from "provider/UserProvider";
 
 function MyApp({ Component, pageProps }) {
   const [queryClient] = useState(
@@ -35,8 +36,10 @@ function MyApp({ Component, pageProps }) {
               }}
               TransitionComponent={Zoom}
             >
-              <CssBaseline />
-              {getLayout(<Component {...pageProps} />)}
+              <UserProvider>
+                <CssBaseline />
+                {getLayout(<Component {...pageProps} />)}
+              </UserProvider>
             </SnackbarProvider>
           </ThemeProvider>
         </CacheProvider>

@@ -10,6 +10,7 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import AuthPlacard from "components/AuthPlacard";
 import { useRouter } from "next/router";
 import { usePostAuthLogin } from "hook/api/useApiAuth";
+import { useUser } from "hook/useUser";
 //
 const initialValues = {
   phoneNo: "",
@@ -22,10 +23,18 @@ function LoginPage() {
   const { push } = useRouter();
   //
   const postAuthLogin = usePostAuthLogin();
+  const { setUser } = useUser();
 
   const handleSubmit = (values) => {
     postAuthLogin.mutate(values, {
       onSuccess: (res) => {
+        setUser({
+          username: res?.value.user.username,
+          id: res?.value.user.id,
+          role: res?.value.user.role,
+          phoneNo: res?.value.user.phoneNo,
+          gender: res?.value.user.gender,
+        });
         toast.success({ res });
         push("/dashboard");
       },
