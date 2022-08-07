@@ -1,4 +1,11 @@
-import { Box, Divider, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  IconButton,
+  Stack,
+  styled,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -6,8 +13,22 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 import StayCurrentPortraitTwoToneIcon from "@mui/icons-material/StayCurrentPortraitTwoTone";
 import FaceTwoToneIcon from "@mui/icons-material/FaceTwoTone";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useRouter } from "next/router";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 //
+
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: "#000",
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}));
+
 function Profile() {
   const { push } = useRouter();
   return (
@@ -47,9 +68,11 @@ function Profile() {
               پروفایل
             </Typography>
           </Box>
-          <IconButton>
-            <MoreHorizIcon sx={{ color: "white" }} />
-          </IconButton>
+          <LightTooltip title="خروج">
+            <IconButton onClick={() => push("/login")}>
+              <LogoutIcon sx={{ color: "white" }} />
+            </IconButton>
+          </LightTooltip>
         </Box>
         <Box p={5} sx={{ display: "flex", alignItems: "center" }}>
           <AccountCircleIcon sx={{ color: "white", fontSize: 100 }} />
