@@ -1,0 +1,1 @@
+export const BASE_URL_ADDRESS = process.env.NEXT_PUBLIC_API_ADDRESS_APP;

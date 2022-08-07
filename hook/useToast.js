@@ -1,7 +1,7 @@
 import { useSnackbar } from "notistack";
 
 function useToast() {
-  const enqueueSnackbar = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   //
   const toast = {
     success: ({ res, message }) => {

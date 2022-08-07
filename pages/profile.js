@@ -59,7 +59,7 @@ function Profile() {
         </Box>
         <Stack
           spacing={3}
-          p={8}
+          p={7}
           borderRadius="70px 70px 0  0"
           bgcolor="white"
           divider={<Divider />}

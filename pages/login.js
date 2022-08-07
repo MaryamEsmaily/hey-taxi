@@ -9,9 +9,10 @@ import useToast from "hook/useToast";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import AuthPlacard from "components/AuthPlacard";
 import { useRouter } from "next/router";
+import { usePostAuthLogin } from "hook/api/useApiAuth";
 //
 const initialValues = {
-  mobileNumber: "",
+  phoneNo: "",
   password: "",
 };
 //
@@ -20,8 +21,18 @@ function LoginPage() {
   const toast = useToast();
   const { push } = useRouter();
   //
+  const postAuthLogin = usePostAuthLogin();
+
   const handleSubmit = (values) => {
-    push("/dashboard");
+    postAuthLogin.mutate(values, {
+      onSuccess: (res) => {
+        toast.success({ res });
+        push("/dashboard");
+      },
+      onError: (err) => {
+        toast.error({ err });
+      },
+    });
   };
   //
   const formik = useFormik({
@@ -62,8 +73,8 @@ function LoginPage() {
               </Typography>
               <TextField
                 label="شماره تماس"
-                {...formik.getFieldProps("mobileNumber")}
-                {...getValidationFieldProps(formik, "mobileNumber")}
+                {...formik.getFieldProps("phoneNo")}
+                {...getValidationFieldProps(formik, "phoneNo")}
               />
               <PasswordInput
                 label="رمز عبور"
