@@ -86,7 +86,7 @@ const MyMap = ({ setMarkers, markers }) => {
       ) : null}
 
       <MapContainer
-        center={[51.505, -0.09]}
+        center={[35.65500011058058, 51.39948005533141]}
         zoom={13}
         scrollWheelZoom={false}
         style={{ height: "100vh" }}

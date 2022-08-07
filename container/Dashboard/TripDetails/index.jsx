@@ -19,7 +19,9 @@ import { useRouter } from "next/router";
 import useModal from "hook/useModal";
 import ModalSearchingForTripper from "components/Modal/ModalSearchingForTripper";
 import { useFormik } from "formik";
+import axios from "axios";
 //
+
 const initialValues = {
   origin: "",
   destination: "",
@@ -29,7 +31,6 @@ const initialValues = {
 function TripDetails({ markers }) {
   const { push } = useRouter();
   const { toggle, config } = useModal();
-
   const handleSubmit = (values) => {
     toggle();
   };
@@ -40,18 +41,51 @@ function TripDetails({ markers }) {
   });
 
   useEffect(() => {
-    formik.getFieldProps("origin").onChange({
-      target: {
-        value: markers?.[0]?.lat,
-        name: "origin",
-      },
-    });
-    formik.getFieldProps("destination").onChange({
-      target: {
-        value: markers?.[1]?.lat,
-        name: "destination",
-      },
-    });
+    if (markers?.[0]) {
+      axios
+        .get("https://api.neshan.org/v4/reverse", {
+          params: {
+            ...markers?.[0],
+          },
+          headers: {
+            "Api-Key": "service.7f87d05ab66c440098e036b97f3dd1b1",
+          },
+        })
+        .then((res) => {
+          formik.getFieldProps("origin").onChange({
+            target: {
+              value: res?.data?.formatted_address,
+              name: "origin",
+            },
+          });
+        });
+    } else
+      formik.getFieldProps("origin").onChange({
+        target: {
+          value: "",
+          name: "origin",
+        },
+      });
+
+    if (markers?.[1]) {
+      axios
+        .get("https://api.neshan.org/v4/reverse", {
+          params: {
+            ...markers?.[1],
+          },
+          headers: {
+            "Api-Key": "service.7f87d05ab66c440098e036b97f3dd1b1",
+          },
+        })
+        .then((res) => {
+          formik.getFieldProps("destination").onChange({
+            target: {
+              value: res?.data?.formatted_address,
+              name: "destination",
+            },
+          });
+        });
+    } else formik.values.destination = "";
   }, [markers]);
 
   return (
