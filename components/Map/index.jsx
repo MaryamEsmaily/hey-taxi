@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
-
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 import Fab from "@mui/material/Fab";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -15,10 +21,9 @@ function Events({ onClick }) {
   return null;
 }
 
-const MyMap = () => {
+const MyMap = ({ setMarkers, markers }) => {
   const [map, setMap] = useState(null);
   const [status, setStatus] = useState(0);
-  const [markers, setMarkers] = useState([]);
   //
   const handleClick = (location) => {
     if (status === 0) {
@@ -56,9 +61,10 @@ const MyMap = () => {
     pluginRef.current.appendChild(controlContainer);
   }, [map]);
   //
+
   return (
     <>
-      {markers.length ? (
+      {markers?.length ? (
         <Fab
           color="warning"
           sx={{
@@ -75,7 +81,7 @@ const MyMap = () => {
             });
           }}
         >
-          {markers.length === 1 ? <ClearIcon /> : <ArrowBackIcon />}
+          {markers?.length === 1 ? <ClearIcon /> : <ArrowBackIcon />}
         </Fab>
       ) : null}
 

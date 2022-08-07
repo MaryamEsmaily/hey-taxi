@@ -7,7 +7,7 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -26,7 +26,7 @@ const initialValues = {
   numOfTripper: "1",
 };
 //
-function TripDetails() {
+function TripDetails({ markers }) {
   const { push } = useRouter();
   const { toggle, config } = useModal();
 
@@ -38,6 +38,21 @@ function TripDetails() {
     initialValues: initialValues,
     onSubmit: handleSubmit,
   });
+
+  useEffect(() => {
+    formik.getFieldProps("origin").onChange({
+      target: {
+        value: markers?.[0]?.lat,
+        name: "origin",
+      },
+    });
+    formik.getFieldProps("destination").onChange({
+      target: {
+        value: markers?.[1]?.lat,
+        name: "destination",
+      },
+    });
+  }, [markers]);
 
   return (
     <>

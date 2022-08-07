@@ -23,7 +23,7 @@ const RoutingMachine = ({ markers }) => {
       showAlternatives: false,
       addWaypoints: true,
       fitSelectedRoutes: false,
-      draggableWaypoints: true,
+      draggableWaypoints: false,
     }).addTo(map);
     return () => map?.removeControl(routingControl);
   }, [map, waypoints]);

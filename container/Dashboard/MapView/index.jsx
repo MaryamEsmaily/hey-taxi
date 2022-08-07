@@ -3,15 +3,10 @@ import dynamic from "next/dynamic";
 import React from "react";
 
 const Map = dynamic(() => import("components/Map"), { ssr: false });
-function MapView({ setOrigin, setDestination, origin, destination }) {
+function MapView({ setMarkers, markers }) {
   return (
     <Box overflow="hidden" height="100vh">
-      <Map
-        setOrigin={setOrigin}
-        setDestination={setDestination}
-        origin={origin}
-        destination={destination}
-      />
+      <Map setMarkers={setMarkers} markers={markers} />
     </Box>
   );
 }
