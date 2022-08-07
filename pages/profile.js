@@ -16,6 +16,7 @@ import FaceTwoToneIcon from "@mui/icons-material/FaceTwoTone";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useRouter } from "next/router";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import { useUserState } from "hook/useUser";
 //
 
 const LightTooltip = styled(({ className, ...props }) => (
@@ -30,7 +31,10 @@ const LightTooltip = styled(({ className, ...props }) => (
 }));
 
 function Profile() {
+  const user = useUserState();
   const { push } = useRouter();
+
+  console.log(user);
   return (
     <Box
       sx={{
@@ -77,7 +81,7 @@ function Profile() {
         <Box p={5} sx={{ display: "flex", alignItems: "center" }}>
           <AccountCircleIcon sx={{ color: "white", fontSize: 100 }} />
           <Typography variant="h5" ml={2} color="white">
-            مریم اسماعیلی
+            {user?.username}
           </Typography>
         </Box>
         <Stack
@@ -92,21 +96,23 @@ function Profile() {
               <AccountCircleTwoToneIcon color="warning" />
               <Typography>نام و نام خانوادگی:</Typography>
             </Stack>
-            <Typography>مریم اسماعیلی</Typography>
+            <Typography>{user?.username}</Typography>
           </Stack>
           <Stack direction="row" alignItems="center">
             <Stack direction="row" sx={{ width: "200px" }} spacing={1}>
               <StayCurrentPortraitTwoToneIcon color="warning" />
               <Typography>شماره موبایل:</Typography>
             </Stack>
-            <Typography>09379882902</Typography>
+            <Typography> {user?.phoneNo}</Typography>
           </Stack>
           <Stack direction="row" alignItems="center">
             <Stack direction="row" sx={{ width: "200px" }} spacing={1}>
               <FaceTwoToneIcon color="warning" />
               <Typography>جنسیت:</Typography>
             </Stack>
-            <Typography>زن</Typography>
+            <Typography>
+              {user?.gender === 1 ? "مرد" : user?.gender === 2 ? "زن" : "سایر"}
+            </Typography>
           </Stack>
         </Stack>
       </Box>
