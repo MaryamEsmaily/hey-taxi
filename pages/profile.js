@@ -34,7 +34,6 @@ function Profile() {
   const user = useUserState();
   const { push } = useRouter();
 
-  console.log(user);
   return (
     <Box
       sx={{

@@ -7,7 +7,7 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -20,19 +20,55 @@ import useModal from "hook/useModal";
 import ModalSearchingForTripper from "components/Modal/ModalSearchingForTripper";
 import { useFormik } from "formik";
 import axios from "axios";
+import { usePostTripTripRequest } from "hook/api/useApiTrip";
+import { useUserState } from "hook/useUser";
 //
 
 const initialValues = {
-  origin: "",
-  destination: "",
-  numOfTripper: "1",
+  sourceAndDest: {
+    id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    sLongitude: 0,
+    sLatitude: 0,
+    dLongitude: 0,
+    dLatitude: 0,
+  },
+  firstPrice: 0,
+  passesNum: 0,
+  passengerId: "",
 };
 //
 function TripDetails({ markers }) {
+  const [origin, setOrigin] = useState("");
+  const [destination, setDestination] = useState();
   const { push } = useRouter();
   const { toggle, config } = useModal();
+  const user = useUserState();
+  //
+  const postTripTripRequest = usePostTripTripRequest();
   const handleSubmit = (values) => {
-    toggle();
+    postTripTripRequest.mutate(
+      {
+        ...values,
+        sourceAndDest: {
+          id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          sLongitude: +markers?.[0].lng,
+          sLatitude: +markers?.[0].lat,
+          dLongitude: +markers?.[1].lng,
+          dLatitude: +markers?.[1].lat,
+        },
+        passengerId: user?.id,
+      },
+      {
+        onSuccess: (res) => {
+          console.log(res);
+
+          toggle();
+        },
+        onError: (err) => {
+          console.log(err);
+        },
+      }
+    );
   };
   //
   const formik = useFormik({
@@ -52,20 +88,9 @@ function TripDetails({ markers }) {
           },
         })
         .then((res) => {
-          formik.getFieldProps("origin").onChange({
-            target: {
-              value: res?.data?.formatted_address,
-              name: "origin",
-            },
-          });
+          setOrigin(res?.data?.formatted_address);
         });
-    } else
-      formik.getFieldProps("origin").onChange({
-        target: {
-          value: "",
-          name: "origin",
-        },
-      });
+    } else setOrigin("");
 
     if (markers?.[1]) {
       axios
@@ -78,14 +103,9 @@ function TripDetails({ markers }) {
           },
         })
         .then((res) => {
-          formik.getFieldProps("destination").onChange({
-            target: {
-              value: res?.data?.formatted_address,
-              name: "destination",
-            },
-          });
+          setDestination(res?.data?.formatted_address);
         });
-    } else formik.values.destination = "";
+    } else setDestination("");
   }, [markers]);
 
   return (
@@ -131,24 +151,26 @@ function TripDetails({ markers }) {
                 sx={{ mb: 2 }}
                 placeholder="مبدا"
                 InputProps={{
+                  readOnly: true,
                   startAdornment: (
                     <InputAdornment position="start">
                       <HomeOutlinedIcon color="warning" />
                     </InputAdornment>
                   ),
                 }}
-                {...formik.getFieldProps("origin")}
+                value={origin}
               />
               <TextField
                 placeholder="مقصد"
                 InputProps={{
+                  readOnly: true,
                   startAdornment: (
                     <InputAdornment position="start">
                       <PlaceOutlinedIcon color="warning" />
                     </InputAdornment>
                   ),
                 }}
-                {...formik.getFieldProps("destination")}
+                value={destination}
               />
             </Box>
             <Box
@@ -203,7 +225,7 @@ function TripDetails({ markers }) {
                 textAlign: "center",
               },
             }}
-            {...formik.getFieldProps("numOfTripper")}
+            {...formik.getFieldProps("passesNum")}
           />
           <Box pl={2} pr={3}>
             <Button

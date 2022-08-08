@@ -1,19 +1,13 @@
+import DriverDashboard from "container/Dashboard/DriverDashboard";
+import PassengerDashboard from "container/Dashboard/PassengerDashboard";
+import { useUserState } from "hook/useUser";
 import React, { useState } from "react";
-import Grid from "@mui/material/Grid";
-import MapView from "container/Dashboard/MapView";
-import TripDetails from "container/Dashboard/TripDetails";
 
 function DashboardPage() {
-  const [markers, setMarkers] = useState([]);
+  const user = useUserState();
+
   return (
-    <Grid container>
-      <Grid item xs={9}>
-        <MapView setMarkers={setMarkers} markers={markers} />
-      </Grid>
-      <Grid item xs={3}>
-        <TripDetails markers={markers} />
-      </Grid>
-    </Grid>
+    <>{!user?.role === true ? <PassengerDashboard /> : <DriverDashboard />}</>
   );
 }
 
