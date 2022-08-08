@@ -4,7 +4,7 @@ import React from "react";
 
 function RegisterPlacard() {
   return (
-    <Box textAlign="center" pt={10} backgroundColor="white">
+    <Box textAlign="center" pt={10} backgroundColor="white" height="100%">
       <Typography fontSize="26px" fontWeight="bold" mb={1} color="#ffc73f">
         هی تاکسی!
       </Typography>

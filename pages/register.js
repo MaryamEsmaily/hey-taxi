@@ -18,16 +18,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import AuthPlacard from "components/AuthPlacard";
 import useToast from "hook/useToast";
 import { useFormik } from "formik";
 import registerSchema from "schema/registerSchema";
 import RegisterPlacard from "components/RegisterPlacard";
 import { useRouter } from "next/router";
+import { usePostAuthCreateAdmin } from "hook/api/useApiAuth";
+
 //
 const initialValues = {
-  mobileNumber: "",
+  username: "",
+  phoneNo: "",
   password: "",
+  gender: 0,
+  role: 0,
+  car: "",
+  carId: "",
 };
 //
 function RegisterPage() {
@@ -35,19 +41,28 @@ function RegisterPage() {
   //
   const { push } = useRouter();
   //
+  const postAuthCreateAdmin = usePostAuthCreateAdmin();
   const handleSubmit = (values) => {
-    push("/login");
+    postAuthCreateAdmin.mutate(values, {
+      onSuccess: (res) => {
+        toast.success({ res });
+        push("/login");
+      },
+      onError: (err) => {
+        toast.error({ err });
+      },
+    });
   };
   //
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: handleSubmit,
-    validationSchema: registerSchema,
+    // validationSchema: registerSchema,
   });
 
   return (
     <Box borderRadius="8px" width="100%" maxWidth={1000} overflow="hidden">
-      <Grid container height="600px">
+      <Grid container height="700px">
         <Grid item xs={6}>
           <Box
             backgroundColor="#ffc73f"
@@ -62,7 +77,7 @@ function RegisterPage() {
             <Box
               borderRadius="8px"
               backgroundColor="white"
-              mx={10}
+              mx={8}
               p={5}
               component="form"
               onSubmit={formik.handleSubmit}
@@ -70,13 +85,18 @@ function RegisterPage() {
               <Typography fontSize="18px" fontWeight="bold" mb={1}>
                 ثبت نام
               </Typography>
-              <Typography fontSize="12px" fontWeight="bold" color="gray" mb={2}>
+              <Typography fontSize="12px" fontWeight="bold" color="gray" mb={1}>
                 مشخصات خود را وارد کنید
               </Typography>
               <TextField
                 label="نام کاربری"
-                {...formik.getFieldProps("mobileNumber")}
-                {...getValidationFieldProps(formik, "mobileNumber")}
+                {...formik.getFieldProps("username")}
+                {...getValidationFieldProps(formik, "username")}
+              />
+              <TextField
+                label="شماره موبایل"
+                {...formik.getFieldProps("phoneNo")}
+                {...getValidationFieldProps(formik, "phoneNo")}
               />
               <PasswordInput
                 label="رمز عبور"
@@ -85,35 +105,45 @@ function RegisterPage() {
               />
               <PasswordInput
                 label="تکرار رمز عبور"
-                {...formik.getFieldProps("password")}
-                {...getValidationFieldProps(formik, "password")}
+                {...formik.getFieldProps("rePassword")}
+                {...getValidationFieldProps(formik, "rePassword")}
               />
               <FormControl size="small">
-                <InputLabel id="demo-simple-select-label">نقش کاربر</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="نقش کاربر"
-                >
+                <InputLabel>نقش کاربر</InputLabel>
+                <Select label="نقش کاربر" {...formik.getFieldProps("role")}>
                   <MenuItem value={1}>مسافر</MenuItem>
                   <MenuItem value={2}>راننده</MenuItem>
                 </Select>
               </FormControl>
+              {formik.values.role === 2 ? (
+                <>
+                  <TextField
+                    label="مدل اتومبیل"
+                    {...formik.getFieldProps("car")}
+                    {...getValidationFieldProps(formik, "car")}
+                  />
+                  <TextField
+                    label="پلاک اتومبیل"
+                    {...formik.getFieldProps("carId")}
+                    {...getValidationFieldProps(formik, "carId")}
+                  />
+                </>
+              ) : null}
               <FormControl>
                 <FormLabel sx={{ display: "unset" }}>جنسیت</FormLabel>
-                <RadioGroup row>
+                <RadioGroup row {...formik.getFieldProps("gender")}>
                   <FormControlLabel
-                    value="female"
+                    value="2"
                     control={<Radio size="small" color="warning" />}
                     label="زن"
                   />
                   <FormControlLabel
-                    value="male"
+                    value="1"
                     control={<Radio size="small" color="warning" />}
                     label="مرد"
                   />
                   <FormControlLabel
-                    value="other"
+                    value="3"
                     control={<Radio size="small" color="warning" />}
                     label="سایر"
                   />
