@@ -6,9 +6,7 @@ import React, { useState } from "react";
 function DashboardPage() {
   const user = useUserState();
 
-  return (
-    <>{!user?.role === true ? <PassengerDashboard /> : <DriverDashboard />}</>
-  );
+  return <>{user?.role === 1 ? <PassengerDashboard /> : <DriverDashboard />}</>;
 }
 
 export default DashboardPage;
