@@ -11,6 +11,7 @@ import AuthPlacard from "components/AuthPlacard";
 import { useRouter } from "next/router";
 import { usePostAuthLogin } from "hook/api/useApiAuth";
 import { useUser } from "hook/useUser";
+import { useTripRequestsCtx } from "hook/useSocket";
 //
 const initialValues = {
   phoneNo: "",
@@ -21,6 +22,7 @@ function LoginPage() {
   //
   const toast = useToast();
   const { push } = useRouter();
+  const { startConnection } = useTripRequestsCtx();
   //
   const postAuthLogin = usePostAuthLogin();
   const { setUser } = useUser();
@@ -36,7 +38,8 @@ function LoginPage() {
           gender: res?.value.user.gender,
         });
         toast.success({ res });
-        push("/dashboard");
+        push("/app/dashboard");
+        startConnection();
       },
       onError: (err) => {
         toast.error({ err });

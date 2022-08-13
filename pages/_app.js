@@ -12,6 +12,7 @@ import reactQueryConfig from "config/reactQueryConfig";
 import { useState } from "react";
 import { SnackbarProvider } from "notistack";
 import UserProvider from "provider/UserProvider";
+import TripListProvider from "provider/TripListProvider";
 
 function MyApp({ Component, pageProps }) {
   const [queryClient] = useState(
@@ -22,28 +23,31 @@ function MyApp({ Component, pageProps }) {
         },
       })
   );
+
   const getLayout = Component.getLayout || ((page) => page);
   return (
     <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <CacheProvider value={cacheRtl}>
-          <ThemeProvider theme={theme}>
-            <SnackbarProvider
-              maxSnack={3}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              TransitionComponent={Zoom}
-            >
-              <UserProvider>
-                <CssBaseline />
-                {getLayout(<Component {...pageProps} />)}
-              </UserProvider>
-            </SnackbarProvider>
-          </ThemeProvider>
-        </CacheProvider>
-      </Hydrate>
+      <TripListProvider>
+        <Hydrate state={pageProps.dehydratedState}>
+          <CacheProvider value={cacheRtl}>
+            <ThemeProvider theme={theme}>
+              <SnackbarProvider
+                maxSnack={3}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                TransitionComponent={Zoom}
+              >
+                <UserProvider>
+                  <CssBaseline />
+                  {getLayout(<Component {...pageProps} />)}
+                </UserProvider>
+              </SnackbarProvider>
+            </ThemeProvider>
+          </CacheProvider>
+        </Hydrate>
+      </TripListProvider>
     </QueryClientProvider>
   );
 }
