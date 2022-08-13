@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
-import MapView from "container/Dashboard/MapView";
-import TripDetails from "container/Dashboard/TripDetails";
+import MapView from "container/app/Dashboard/MapView";
+import TripDetails from "container/app/Dashboard/TripDetails";
 
 function PassengerDashboard() {
   const [markers, setMarkers] = useState([]);

@@ -64,7 +64,7 @@ function Profile() {
               alignItems: "center",
             }}
           >
-            <IconButton onClick={() => push("/dashboard")}>
+            <IconButton onClick={() => push("/app/dashboard")}>
               <ArrowForwardIosIcon sx={{ color: "white" }} variant="h6" />
             </IconButton>
             <Typography color="white" fontWeight="bold">

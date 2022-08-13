@@ -4,20 +4,42 @@ import Image from "next/image";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 import { useRouter } from "next/router";
+import { useTripRequestsCtx } from "hook/useSocket";
+import axios from "axios";
 
 function DriverDashboard() {
+  //
+  const { SendRequest } = useTripRequestsCtx();
+  //
   const { push } = useRouter();
   const [lat, setLat] = useState(null);
   const [lng, setLng] = useState(null);
   const [status, setStatus] = useState(null);
+  const [driverLocation, setDriverLocation] = useState(null);
   useEffect(() => {
     if (!navigator.geolocation) {
-      setStatus("Geolocation is not supported by your browser");
+      setStatus("خطای مرورگر");
     } else {
-      setStatus("Locating...");
+      setStatus("در حال دریافت موقعیت مکانی شما...");
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setStatus(null);
+          axios
+            .get("https://api.neshan.org/v4/reverse", {
+              params: {
+                ...{
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                },
+              },
+              headers: {
+                "Api-Key": "service.7f87d05ab66c440098e036b97f3dd1b1",
+              },
+            })
+            .then((res) => {
+              console.log(res);
+              setDriverLocation(res?.data?.formatted_address);
+            });
           setLat(position.coords.latitude);
           setLng(position.coords.longitude);
         },
@@ -73,10 +95,22 @@ function DriverDashboard() {
           برای سفر آماده اید؟
         </Typography>
         <Typography mb={2} fontSize={20}>
-          {(lat, lng, status)}
+          {driverLocation ? `موقعیت شما: ${driverLocation} ` : status}
         </Typography>
         <Button
-          type="submit"
+          onClick={() => {
+            SendRequest({
+              sourceAndDest: {
+                SLongitude: lat,
+                SLatitude: lng,
+                DLongitude: "1.1235",
+                DLatitude: "1.2455",
+              },
+              ConnectionId: null,
+              DriverId: "2c18d3d7-44bd-418b-8f06-028d5b2fc101",
+            });
+            push("/app/trip-requests");
+          }}
           fullWidth
           size="large"
           sx={{ borderRadius: "50px" }}
