@@ -32,7 +32,6 @@ const initialValues = {
     dLongitude: 0,
     dLatitude: 0,
   },
-  firstPrice: 0,
   passesNum: 0,
   passengerId: "",
 };
@@ -48,20 +47,18 @@ function TripDetails({ markers }) {
   const handleSubmit = (values) => {
     postTripTripRequest.mutate(
       {
-        ...values,
         sourceAndDest: {
           id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-          sLongitude: +markers?.[0].lng,
-          sLatitude: +markers?.[0].lat,
+          sLongitude: 51.4152,
+          sLatitude: 35.6872,
           dLongitude: +markers?.[1].lng,
           dLatitude: +markers?.[1].lat,
         },
+        passesNum: 3 - values.passesNum,
         passengerId: user?.id,
       },
       {
         onSuccess: (res) => {
-          console.log(res);
-
           toggle();
         },
         onError: (err) => {

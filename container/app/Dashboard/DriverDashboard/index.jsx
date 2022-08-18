@@ -16,6 +16,7 @@ function DriverDashboard() {
   const [lng, setLng] = useState(null);
   const [status, setStatus] = useState(null);
   const [driverLocation, setDriverLocation] = useState(null);
+  //
   useEffect(() => {
     if (!navigator.geolocation) {
       setStatus("خطای مرورگر");
@@ -37,7 +38,6 @@ function DriverDashboard() {
               },
             })
             .then((res) => {
-              console.log(res);
               setDriverLocation(res?.data?.formatted_address);
             });
           setLat(position.coords.latitude);
@@ -100,13 +100,9 @@ function DriverDashboard() {
         <Button
           onClick={() => {
             SendRequest({
-              sourceAndDest: {
-                SLongitude: lat,
-                SLatitude: lng,
-                DLongitude: "1.1235",
-                DLatitude: "1.2455",
-              },
-              ConnectionId: null,
+              SLongitude: lat,
+              SLatitude: lng,
+              ConnectionId: "jgklkj",
               DriverId: "2c18d3d7-44bd-418b-8f06-028d5b2fc101",
             });
             push("/app/trip-requests");
@@ -115,6 +111,7 @@ function DriverDashboard() {
           size="large"
           sx={{ borderRadius: "50px" }}
           color="neutral"
+          disabled={!lat && !lng}
         >
           آماده ام
         </Button>

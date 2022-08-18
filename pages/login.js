@@ -32,7 +32,7 @@ function LoginPage() {
       onSuccess: (res) => {
         setUser({
           username: res?.value.user.username,
-          id: res?.value.user.id,
+          id: res?.value.passOrDriverId,
           role: res?.value.user.role,
           phoneNo: res?.value.user.phoneNo,
           gender: res?.value.user.gender,
