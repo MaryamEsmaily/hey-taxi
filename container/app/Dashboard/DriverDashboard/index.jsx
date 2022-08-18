@@ -6,6 +6,7 @@ import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 import { useRouter } from "next/router";
 import { useTripRequestsCtx } from "hook/useSocket";
 import axios from "axios";
+import { useUserState } from "hook/useUser";
 
 function DriverDashboard() {
   //
@@ -17,6 +18,7 @@ function DriverDashboard() {
   const [status, setStatus] = useState(null);
   const [driverLocation, setDriverLocation] = useState(null);
   //
+  const { user } = useUserState();
   useEffect(() => {
     if (!navigator.geolocation) {
       setStatus("خطای مرورگر");
@@ -102,8 +104,8 @@ function DriverDashboard() {
             SendRequest({
               SLongitude: lat,
               SLatitude: lng,
-              ConnectionId: "jgklkj",
-              DriverId: "2c18d3d7-44bd-418b-8f06-028d5b2fc101",
+              ConnectionId: "iDontKnow",
+              DriverId: user?.Id,
             });
             push("/app/trip-requests");
           }}
