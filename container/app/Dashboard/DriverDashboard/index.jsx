@@ -104,7 +104,6 @@ function DriverDashboard() {
             SendRequest({
               SLongitude: lat,
               SLatitude: lng,
-              ConnectionId: "iDontKnow",
               DriverId: user?.id,
             });
             push("/app/trip-requests");

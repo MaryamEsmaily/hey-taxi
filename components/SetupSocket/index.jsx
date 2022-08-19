@@ -1,13 +1,15 @@
 import { useTripRequestsCtx } from "hook/useSocket";
 import { useEffect } from "react";
+import cookie from "js-cookie";
 //
 function SetupSocket() {
   //
+  const id = cookie.get("ID");
   const { startConnection } = useTripRequestsCtx();
 
   useEffect(() => {
-    startConnection();
-  }, []);
+    if (id) startConnection();
+  }, [id]);
   //
   return null;
 }
