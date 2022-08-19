@@ -8,7 +8,6 @@ function SetupUser() {
   const { setUser } = useUser();
 
   const postAuthProfile = usePostAuthProfile({ userId: id });
-  console.log(postAuthProfile);
 
   useEffect(() => {
     if (id) {

@@ -18,7 +18,7 @@ function DriverDashboard() {
   const [status, setStatus] = useState(null);
   const [driverLocation, setDriverLocation] = useState(null);
   //
-  const { user } = useUserState();
+  const user = useUserState();
   useEffect(() => {
     if (!navigator.geolocation) {
       setStatus("خطای مرورگر");
@@ -105,7 +105,7 @@ function DriverDashboard() {
               SLongitude: lat,
               SLatitude: lng,
               ConnectionId: "iDontKnow",
-              DriverId: user?.Id,
+              DriverId: user?.id,
             });
             push("/app/trip-requests");
           }}

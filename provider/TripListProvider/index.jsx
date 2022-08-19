@@ -5,74 +5,74 @@ import React, { useContext, useEffect, useState } from "react";
 
 const TripListProvider = ({ children }) => {
   const [connection, setConnection] = useState(null);
-  const [tripList, setTripList] = useState([
-    // {
-    //   id: 1,
-    //   name: "سفر1",
-    //   origin: "بابل، میدان امام علی",
-    //   destination: "بابلسر، شهربانی",
-    // },
-    // {
-    //   id: 2,
-    //   name: "سفر2",
-    //   origin: "بابل، میدان امام علی",
-    //   destination: "بابلسر، شهربانی",
-    // },
-    // {
-    //   id: 3,
-    //   name: "سفر2",
-    //   origin: "بابل، میدان امام علی",
-    //   destination: "بابلسر، شهربانی",
-    // },
-    // {
-    //   id: 4,
-    //   name: "سفر2",
-    //   origin: "بابل، میدان امام علی",
-    //   destination: "بابلسر، شهربانی",
-    // },
-    // {
-    //   id: 5,
-    //   name: "سفر2",
-    //   origin: "بابل، میدان امام علی",
-    //   destination: "بابلسر، شهربانی",
-    // },
-    // {
-    //   id: 6,
-    //   name: "سفر2",
-    //   origin: "بابل، میدان امام علی",
-    //   destination: "بابلسر، شهربانی",
-    // },
-    // {
-    //   id: 7,
-    //   name: "سفر2",
-    //   origin: "بابل، میدان امام علی",
-    //   destination: "بابلسر، شهربانی",
-    // },
-    // {
-    //   id: 8,
-    //   name: "سفر2",
-    //   origin: "بابل، میدان امام علی",
-    //   destination: "بابلسر، شهربانی",
-    // },
-    // {
-    //   id: 9,
-    //   name: "سفر2",
-    //   origin: "بابل، میدان امام علی",
-    //   destination: "بابلسر، شهربانی",
-    // },
-    // {
-    //   id: 10,
-    //   name: "سفر2",
-    //   origin: "بابل، میدان امام علی",
-    //   destination: "بابلسر، شهربانی",
-    // },
-    // {
-    //   id: 11,
-    //   name: "سفر2",
-    //   origin: "بابل، میدان امام علی",
-    //   destination: "بابلسر، شهربانی",
-    // },
-  ]);
+  // const [tripList, setTripList] = useState([
+  //   // {
+  //   //   id: 1,
+  //   //   name: "سفر1",
+  //   //   origin: "بابل، میدان امام علی",
+  //   //   destination: "بابلسر، شهربانی",
+  //   // },
+  //   // {
+  //   //   id: 2,
+  //   //   name: "سفر2",
+  //   //   origin: "بابل، میدان امام علی",
+  //   //   destination: "بابلسر، شهربانی",
+  //   // },
+  //   // {
+  //   //   id: 3,
+  //   //   name: "سفر2",
+  //   //   origin: "بابل، میدان امام علی",
+  //   //   destination: "بابلسر، شهربانی",
+  //   // },
+  //   // {
+  //   //   id: 4,
+  //   //   name: "سفر2",
+  //   //   origin: "بابل، میدان امام علی",
+  //   //   destination: "بابلسر، شهربانی",
+  //   // },
+  //   // {
+  //   //   id: 5,
+  //   //   name: "سفر2",
+  //   //   origin: "بابل، میدان امام علی",
+  //   //   destination: "بابلسر، شهربانی",
+  //   // },
+  //   // {
+  //   //   id: 6,
+  //   //   name: "سفر2",
+  //   //   origin: "بابل، میدان امام علی",
+  //   //   destination: "بابلسر، شهربانی",
+  //   // },
+  //   // {
+  //   //   id: 7,
+  //   //   name: "سفر2",
+  //   //   origin: "بابل، میدان امام علی",
+  //   //   destination: "بابلسر، شهربانی",
+  //   // },
+  //   // {
+  //   //   id: 8,
+  //   //   name: "سفر2",
+  //   //   origin: "بابل، میدان امام علی",
+  //   //   destination: "بابلسر، شهربانی",
+  //   // },
+  //   // {
+  //   //   id: 9,
+  //   //   name: "سفر2",
+  //   //   origin: "بابل، میدان امام علی",
+  //   //   destination: "بابلسر، شهربانی",
+  //   // },
+  //   // {
+  //   //   id: 10,
+  //   //   name: "سفر2",
+  //   //   origin: "بابل، میدان امام علی",
+  //   //   destination: "بابلسر، شهربانی",
+  //   // },
+  //   // {
+  //   //   id: 11,
+  //   //   name: "سفر2",
+  //   //   origin: "بابل، میدان امام علی",
+  //   //   destination: "بابلسر، شهربانی",
+  //   // },
+  // ]);
 
   //
 
@@ -99,7 +99,6 @@ const TripListProvider = ({ children }) => {
   };
   //
   useEffect(() => {
-    
     // if the socket is connected starts listening for signals
     if (connection) {
       connection
@@ -126,7 +125,6 @@ const TripListProvider = ({ children }) => {
         connectionStop,
         SendRequest,
         startConnection,
-        tripList,
       }}
     >
       <SetupSocket />
