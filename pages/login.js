@@ -25,7 +25,7 @@ function LoginPage() {
   const { startConnection } = useTripRequestsCtx();
   //
   const postAuthLogin = usePostAuthLogin();
-  const { setUser } = useUser();
+  const { setUser, login } = useUser();
 
   const handleSubmit = (values) => {
     postAuthLogin.mutate(values, {
@@ -33,10 +33,12 @@ function LoginPage() {
         setUser({
           username: res?.value.user.username,
           id: res?.value.passOrDriverId,
+          userId: res?.value.user.id,
           role: res?.value.user.role,
           phoneNo: res?.value.user.phoneNo,
           gender: res?.value.user.gender,
         });
+        login(res?.value.user.id);
         toast.success({ res });
         push("/app/dashboard");
         startConnection();

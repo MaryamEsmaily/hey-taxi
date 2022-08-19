@@ -23,7 +23,7 @@ import { useFormik } from "formik";
 import registerSchema from "schema/registerSchema";
 import RegisterPlacard from "components/RegisterPlacard";
 import { useRouter } from "next/router";
-import { usePostAuthCreateAdmin } from "hook/api/useApiAuth";
+import { usePostAuthRegister } from "hook/api/useApiAuth";
 
 //
 const initialValues = {
@@ -41,9 +41,9 @@ function RegisterPage() {
   //
   const { push } = useRouter();
   //
-  const postAuthCreateAdmin = usePostAuthCreateAdmin();
+  const postAuthRegister = usePostAuthRegister();
   const handleSubmit = (values) => {
-    postAuthCreateAdmin.mutate(values, {
+    postAuthRegister.mutate(values, {
       onSuccess: (res) => {
         toast.success({ res });
         push("/login");

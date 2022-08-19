@@ -5,8 +5,12 @@ const usePostAuthLogin = () => {
   return useMutation(apiAuth.postAuthLogin);
 };
 
-const usePostAuthCreateAdmin = () => {
-  return useMutation(apiAuth.postAuthCreateAdmin);
+const usePostAuthRegister = () => {
+  return useMutation(apiAuth.postAuthRegister);
 };
 
-export { usePostAuthLogin, usePostAuthCreateAdmin };
+const usePostAuthProfile = (params) => {
+  return useMutation(apiAuth.postAuthProfile);
+};
+
+export { usePostAuthLogin, usePostAuthRegister, usePostAuthProfile };

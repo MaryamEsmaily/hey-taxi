@@ -7,9 +7,15 @@ const postAuthLogin = async (params) => {
   return data;
 };
 
-const postAuthCreateAdmin = async (params) => {
-  const { data } = await instance.post(BASE_URL + "CreateAdmin", params);
+const postAuthRegister = async (params) => {
+  const { data } = await instance.post(BASE_URL + "Register", params);
   return data;
 };
 
-export { postAuthLogin, postAuthCreateAdmin };
+const postAuthProfile = async (params) => {
+  console.log(params, "efse");
+  const { data } = await instance.post(BASE_URL + "Profile", params);
+  return data;
+};
+
+export { postAuthLogin, postAuthRegister, postAuthProfile };

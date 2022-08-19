@@ -5,6 +5,9 @@ const userReducer = (_, action) => {
     case "SET_USER":
       return action.payload;
 
+    case "REMOVE_USER":
+      return null;
+
     default:
       throw new Error(`Unknown action: ${action.type}`);
   }

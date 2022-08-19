@@ -1,4 +1,5 @@
 //
+import SetupUser from "components/SetupUser";
 import { userDispatchCtx, userStateCtx } from "context/user";
 import React, { useReducer } from "react";
 import userReducer, { initialStateUser } from "reducer/UserReducer";
@@ -8,7 +9,10 @@ function UserProvider({ children }) {
   //
   return (
     <userDispatchCtx.Provider value={dispatch}>
-      <userStateCtx.Provider value={state}>{children}</userStateCtx.Provider>
+      <userStateCtx.Provider value={state}>
+        <SetupUser />
+        {children}
+      </userStateCtx.Provider>
     </userDispatchCtx.Provider>
   );
 }
