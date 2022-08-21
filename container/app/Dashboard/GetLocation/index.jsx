@@ -23,7 +23,6 @@ import { useRouter } from "next/router";
 function Events({ onClick }) {
   const map = useMapEvents({
     click: (e) => {
-      console.log(e);
       axios
         .get("https://api.neshan.org/v4/reverse", {
           params: {
@@ -65,8 +64,6 @@ const GetDriverLocation = () => {
     }
   };
   //
-
-  console.log(markers);
 
   return (
     <>

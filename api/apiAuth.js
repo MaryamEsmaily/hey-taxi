@@ -13,7 +13,6 @@ const postAuthRegister = async (params) => {
 };
 
 const postAuthProfile = async (params) => {
-  console.log(params, "efse");
   const { data } = await instance.post(BASE_URL + "Profile", params);
   return data;
 };
