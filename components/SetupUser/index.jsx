@@ -24,6 +24,7 @@ function SetupUser() {
               car: res?.valueOrDefault.driver?.car,
               carId: res?.valueOrDefault.driver?.carId,
               id: res?.valueOrDefault.driver?.id,
+              passId: res?.valueOrDefault.passenger?.id,
             });
           },
           onError: (err) => {

@@ -2,6 +2,7 @@ import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import SetupSocket from "components/SetupSocket";
 import { SendTripCtx } from "context/socket";
 import React, { useEffect, useState } from "react";
+import cookie from "js-cookie";
 
 const TripListProvider = ({ children }) => {
   const [connection, setConnection] = useState(null);
@@ -20,7 +21,10 @@ const TripListProvider = ({ children }) => {
 
   const startConnection = () => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl("https://localhost:5001/TripList")
+      .withUrl("https://localhost:5001/TripList", {
+        accessTokenFactory: () =>
+          cookie.get("ID") != null ? cookie.get("ID") : "",
+      })
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)
       .build();
@@ -32,7 +36,7 @@ const TripListProvider = ({ children }) => {
       connection
         .start()
         .then(() => {
-          connection.on("broadcastTripList", (signal) => {
+          connection.on("broadcastTripToDriver", (signal) => {
             console.log(signal, "signal");
             setTripList(signal);
           });

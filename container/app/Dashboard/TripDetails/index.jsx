@@ -55,7 +55,7 @@ function TripDetails({ markers }) {
           dLatitude: +markers?.[1].lat,
         },
         passesNum: 3 - values.passesNum,
-        passengerId: user?.id,
+        passengerId: user?.passId,
       },
       {
         onSuccess: (res) => {
