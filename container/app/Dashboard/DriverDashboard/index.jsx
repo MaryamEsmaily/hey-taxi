@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
@@ -21,9 +21,9 @@ function DriverDashboard() {
   const user = useUserState();
   useEffect(() => {
     if (!navigator.geolocation) {
-      setStatus("خطای مرورگر");
+      setStatus({ label: "خطای مرورگر", value: 1 });
     } else {
-      setStatus("در حال دریافت موقعیت مکانی شما...");
+      setStatus({ label: "در حال دریافت موقعیت مکانی شما...", value: 2 });
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setStatus(null);
@@ -42,17 +42,16 @@ function DriverDashboard() {
             .then((res) => {
               setDriverLocation(res?.data?.formatted_address);
             });
-          setLat(position.coords.latitude);
-          setLng(position.coords.longitude);
+          setLat(position.coords.latitude?.toString());
+          setLng(position.coords.longitude?.toString());
         },
         () => {
-          setStatus("مشکلی در خواندن لوکیشن پیش آمده است");
+          setStatus({ label: "مشکلی در دریافت لوکیشن پیش آمده است", value: 3 });
         },
         { enableHighAccuracy: true }
       );
     }
   }, []);
-
   return (
     <Box
       sx={{
@@ -97,25 +96,33 @@ function DriverDashboard() {
           برای سفر آماده اید؟
         </Typography>
         <Typography mb={2} fontSize={20}>
-          {driverLocation ? `موقعیت شما: ${driverLocation} ` : status}
+          {driverLocation ? `موقعیت شما: ${driverLocation} ` : status?.label}
         </Typography>
-        <Button
-          onClick={() => {
-            SendRequest({
-              SLongitude: lat,
-              SLatitude: lng,
-              DriverId: user?.id,
-            });
-            push("/app/trip-requests");
-          }}
-          fullWidth
-          size="large"
-          sx={{ borderRadius: "50px" }}
-          color="neutral"
-          disabled={!lat && !lng}
-        >
-          آماده ام
-        </Button>
+        {status?.value === 1 || status?.value === 3 ? (
+          <Button
+            onClick={() => {
+              push("/app/get-location");
+            }}
+            fullWidth
+            size="large"
+            sx={{ borderRadius: "50px" }}
+          >
+            انتخاب موقعیت روی نقشه
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              SendRequest([lat, lng, user?.id]);
+              push("/app/trip-requests");
+            }}
+            fullWidth
+            size="large"
+            sx={{ borderRadius: "50px" }}
+            disabled={!lat && !lng}
+          >
+            آماده ام
+          </Button>
+        )}
       </Box>
     </Box>
   );

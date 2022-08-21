@@ -15,7 +15,6 @@ function TripRequests() {
   const { tripList } = useTripRequestsCtx();
   //
   const { push } = useRouter();
-  console.log(tripList);
 
   //
   return (
