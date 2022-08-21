@@ -57,6 +57,7 @@ const theme = createTheme({
       defaultProps: {
         variant: "contained",
         disableElevation: true,
+        color: "neutral",
       },
     },
     MuiPaper: {
