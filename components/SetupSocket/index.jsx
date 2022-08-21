@@ -4,7 +4,7 @@ import cookie from "js-cookie";
 //
 function SetupSocket() {
   //
-  const id = cookie.get("ID");
+  const id = cookie.get("userId");
   const { startConnection } = useTripRequestsCtx();
 
   useEffect(() => {

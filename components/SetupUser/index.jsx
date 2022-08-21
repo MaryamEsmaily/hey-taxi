@@ -4,7 +4,7 @@ import cookie from "js-cookie";
 import { useEffect } from "react";
 
 function SetupUser() {
-  const id = cookie.get("ID");
+  const id = cookie.get("userId");
   const { setUser } = useUser();
 
   const postAuthProfile = usePostAuthProfile({ userId: id });

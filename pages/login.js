@@ -38,7 +38,10 @@ function LoginPage() {
           phoneNo: res?.value.user.phoneNo,
           gender: res?.value.user.gender,
         });
-        login(res?.value.user.id);
+        login({
+          userId: res?.value.user.id,
+          passOrDriverId: res?.value.passOrDriverId,
+        });
         toast.success({ res });
         push("/app/dashboard");
         startConnection();

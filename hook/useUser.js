@@ -20,7 +20,8 @@ export const useUser = () => {
 
   const login = useCallback(
     (user) => {
-      cookie.set("ID", user);
+      cookie.set("userId", user?.userId);
+      cookie.set("passOrDriverId", user?.passOrDriverId);
       router.push("/app/dashboard");
       queryClient.clear();
     },
@@ -29,7 +30,8 @@ export const useUser = () => {
   // logout
   const logout = useCallback(() => {
     dispatch({ type: "REMOVE_USER" });
-    cookie.remove("ID");
+    cookie.remove("userId");
+    cookie.remove("passOrDriverId");
     router.push("/login");
     queryClient.clear();
     // eslint-disable-next-line react-hooks/exhaustive-deps

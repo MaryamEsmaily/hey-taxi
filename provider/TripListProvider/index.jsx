@@ -23,7 +23,9 @@ const TripListProvider = ({ children }) => {
     const newConnection = new HubConnectionBuilder()
       .withUrl("https://localhost:5001/TripList", {
         accessTokenFactory: () =>
-          cookie.get("ID") != null ? cookie.get("ID") : "",
+          cookie.get("passOrDriverId") != null
+            ? cookie.get("passOrDriverId")
+            : "",
       })
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)
