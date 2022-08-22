@@ -27,27 +27,27 @@ function MyApp({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page);
   return (
     <QueryClientProvider client={queryClient}>
-      <TripListProvider>
-        <Hydrate state={pageProps.dehydratedState}>
-          <CacheProvider value={cacheRtl}>
-            <ThemeProvider theme={theme}>
-              <SnackbarProvider
-                maxSnack={3}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                TransitionComponent={Zoom}
-              >
-                <UserProvider>
+      <UserProvider>
+        <TripListProvider>
+          <Hydrate state={pageProps.dehydratedState}>
+            <CacheProvider value={cacheRtl}>
+              <ThemeProvider theme={theme}>
+                <SnackbarProvider
+                  maxSnack={3}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  TransitionComponent={Zoom}
+                >
                   <CssBaseline />
                   {getLayout(<Component {...pageProps} />)}
-                </UserProvider>
-              </SnackbarProvider>
-            </ThemeProvider>
-          </CacheProvider>
-        </Hydrate>
-      </TripListProvider>
+                </SnackbarProvider>
+              </ThemeProvider>
+            </CacheProvider>
+          </Hydrate>
+        </TripListProvider>
+      </UserProvider>
     </QueryClientProvider>
   );
 }

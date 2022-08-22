@@ -21,20 +21,10 @@ const TripListProvider = ({ children }) => {
 
   const startConnection = () => {
     const newConnection = new HubConnectionBuilder()
-
       .withUrl(
         `https://localhost:5001/TripList?access_token=${cookie.get(
           "passOrDriverId"
-        )}`,
-        (options) => {
-          options.Headers["UserId"] = cookie.get("passOrDriverId");
-        },
-        {
-          accessTokenFactory: () =>
-            cookie.get("passOrDriverId") != null
-              ? cookie.get("passOrDriverId")
-              : "",
-        }
+        )}`
       )
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)
