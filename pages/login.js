@@ -59,65 +59,66 @@ function LoginPage() {
   });
   //
   return (
-    <Box borderRadius="8px" width="100%" maxWidth={1000} overflow="hidden">
-      <Grid container height="504px">
-        <Grid item xs={6}>
+    <Box borderRadius="8px" width="100%" maxWidth={400} overflow="hidden">
+      {/* <Grid container height="504px"> */}
+      {/* <Grid item xs={6}>
           <AuthPlacard />
-        </Grid>
-        <Grid item xs={6}>
-          <Box
-            backgroundColor="#ffc73f"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: " center",
-            }}
-            height="100%"
-          >
-            <Box
-              borderRadius="8px"
-              backgroundColor="white"
-              mx={10}
-              p={5}
-              component="form"
-              onSubmit={formik.handleSubmit}
-            >
-              <Typography fontSize="18px" fontWeight="bold" mb={1}>
-                ورود
-              </Typography>
-              <Typography fontSize="12px" fontWeight="bold" color="gray" mb={2}>
-                برای استفاده از امکانات سامانه وارد شوید
-              </Typography>
-              <TextField
-                label="شماره تماس"
-                {...formik.getFieldProps("phoneNo")}
-                {...getValidationFieldProps(formik, "phoneNo")}
-              />
-              <PasswordInput
-                label="رمز عبور"
-                {...formik.getFieldProps("password")}
-                {...getValidationFieldProps(formik, "password")}
-              />
+        </Grid> */}
+      {/* <Grid item xs={6}> */}
+      <Box
+        backgroundColor="#ffc73f"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: " center",
+        }}
+        height="100%"
+        py={4}
+      >
+        <Box
+          borderRadius="8px"
+          backgroundColor="white"
+          mx={2}
+          p={5}
+          component="form"
+          onSubmit={formik.handleSubmit}
+        >
+          <Typography fontSize="18px" fontWeight="bold" mb={1}>
+            ورود
+          </Typography>
+          <Typography fontSize="12px" fontWeight="bold" color="gray" mb={2}>
+            برای استفاده از امکانات سامانه وارد شوید
+          </Typography>
+          <TextField
+            label="شماره تماس"
+            {...formik.getFieldProps("phoneNo")}
+            {...getValidationFieldProps(formik, "phoneNo")}
+          />
+          <PasswordInput
+            label="رمز عبور"
+            {...formik.getFieldProps("password")}
+            {...getValidationFieldProps(formik, "password")}
+          />
 
-              <Button
-                type="submit"
-                fullWidth
-                sx={{ borderRadius: "50px", mt: 2 }}
-                color="neutral"
-              >
-                ورود
-              </Button>
-              <Box sx={{ textAlign: "center" }}>
-                <Link href="/register" passHref>
-                  <Typography component="a" fontSize="12px">
-                    ثبت نام نکرده اید؟ کلیک کنید.
-                  </Typography>
-                </Link>
-              </Box>
-            </Box>
+          <Button
+            type="submit"
+            fullWidth
+            sx={{ borderRadius: "50px", mt: 2 }}
+            color="neutral"
+          >
+            ورود
+          </Button>
+          <Box sx={{ textAlign: "center" }}>
+            <Link href="/register" passHref>
+              <Typography component="a" fontSize="12px">
+                ثبت نام نکرده اید؟ کلیک کنید.
+              </Typography>
+            </Link>
           </Box>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
+      {/* </Grid> */}
+      {/* </Grid> */}
     </Box>
   );
 }
