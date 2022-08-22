@@ -6,6 +6,8 @@ import {
   Typography,
   Button,
   IconButton,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -39,33 +41,46 @@ const initialValues = {
 function TripDetails({ markers }) {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState();
+  const [checked, setChecked] = useState(false);
+  //
   const { push } = useRouter();
   const { toggle, config } = useModal();
   const user = useUserState();
   //
   const postTripTripRequest = usePostTripTripRequest();
   const handleSubmit = (values) => {
-    postTripTripRequest.mutate(
-      {
-        sourceAndDest: {
-          id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-          sLongitude: 51.4152,
-          sLatitude: 35.6872,
-          dLongitude: +markers?.[1].lng,
-          dLatitude: +markers?.[1].lat,
-        },
-        passesNum: 3 - values.passesNum,
-        passengerId: user?.passId,
+    console.log({
+      sourceAndDest: {
+        id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        sLongitude: 51.4152,
+        sLatitude: 35.6872,
+        dLongitude: +markers?.[1].lng,
+        dLatitude: +markers?.[1].lat,
       },
-      {
-        onSuccess: (res) => {
-          toggle();
-        },
-        onError: (err) => {
-          console.log(err);
-        },
-      }
-    );
+      passesNum: 3 - values.passesNum,
+      passengerId: user?.passId,
+    });
+    // postTripTripRequest.mutate(
+    //   {
+    //     sourceAndDest: {
+    //       id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    //       sLongitude: 51.4152,
+    //       sLatitude: 35.6872,
+    //       dLongitude: +markers?.[1].lng,
+    //       dLatitude: +markers?.[1].lat,
+    //     },
+    //     passesNum: 3 - values.passesNum,
+    //     passengerId: user?.passId,
+    //   },
+    //   {
+    //     onSuccess: (res) => {
+    //       toggle();
+    //     },
+    //     onError: (err) => {
+    //       console.log(err);
+    //     },
+    //   }
+    // );
   };
   //
   const formik = useFormik({
@@ -200,6 +215,8 @@ function TripDetails({ markers }) {
             type="number"
             defaultValue={1}
             InputProps={{
+              disabled: checked ? true : false,
+              readOnly: checked ? true : false,
               inputProps: { min: 1, max: 3 },
               startAdornment: (
                 <InputAdornment position="start">
@@ -210,7 +227,7 @@ function TripDetails({ markers }) {
             sx={{
               pl: 2,
               pr: 3,
-              mb: 10,
+
               textAlign: "center",
               "*::-webkit-inner-spin-button": {
                 opacity: 1,
@@ -224,7 +241,26 @@ function TripDetails({ markers }) {
             }}
             {...formik.getFieldProps("passesNum")}
           />
-          <Box pl={2} pr={3}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                sx={{
+                  color: "orange",
+                  "&.Mui-checked": {
+                    color: "orange",
+                  },
+                }}
+                checked={checked}
+                onChange={(e) => {
+                  setChecked(e.target.checked);
+                  formik.setFieldValue("passesNum", 3);
+                }}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+            }
+            label="همسفر نمی خواهم"
+          />
+          <Box pl={2} pr={3} mt={5}>
             <Button
               type="submit"
               fullWidth
