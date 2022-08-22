@@ -6,11 +6,6 @@ import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 import { useTripRequestsCtx } from "hook/useSocket";
 import { useRouter } from "next/router";
 //
-const DriverMap = dynamic(
-  () => import("container/app/TripRequests/DriverMap"),
-  { ssr: false }
-);
-//
 function TripRequests() {
   const { tripList } = useTripRequestsCtx();
   //
@@ -69,15 +64,15 @@ function TripRequests() {
         </Box>
 
         <Box height="70vh" overflow="auto" bgcolor="#e5e20029" borderRadius={2}>
-          {tripList?.map((trip) => (
+          {tripList?.map((index, trip) => (
             <>
-              <Box key={trip.id} p={2}>
+              <Box key={index} p={2}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Typography color="gray" width="120px">
                     محدوده مبدا:{" "}
                   </Typography>
 
-                  <Typography textAlign="center">{trip.origin} </Typography>
+                  <Typography textAlign="center">{trip?.origin} </Typography>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Typography color="gray" width="120px">
@@ -85,14 +80,14 @@ function TripRequests() {
                   </Typography>
                   <Typography textAlign="center">
                     {" "}
-                    {trip.destination}{" "}
+                    {trip?.destination}{" "}
                   </Typography>
                 </Box>
                 <Box textAlign="end" mt={2}>
                   <Button
                     size="small"
                     color="success"
-                    onClick={() => push("/app/dashboard")}
+                    onClick={() => push("/app/start-trip")}
                   >
                     قبول
                   </Button>
