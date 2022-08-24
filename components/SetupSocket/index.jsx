@@ -11,11 +11,10 @@ function SetupSocket() {
   const { startConnection } = useTripRequestsCtx();
 
   useEffect(() => {
-    if (id && user?.role === 2) {
+    if (id) {
       startConnection();
-      console.log("Res");
     }
-  }, [id, user?.role]);
+  }, [id]);
   //
   return null;
 }

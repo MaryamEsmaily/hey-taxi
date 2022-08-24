@@ -44,7 +44,7 @@ function LoginPage() {
         });
         toast.success({ res });
         push("/app/dashboard");
-        if (res?.value.user.role === 2) startConnection();
+        startConnection();
       },
       onError: (err) => {
         toast.error({ err });
