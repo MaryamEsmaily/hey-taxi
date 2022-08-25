@@ -11,7 +11,12 @@ const TripListProvider = ({ children }) => {
   const SendRequest = async (data) => {
     try {
       await connection
-        .invoke("SendRequest", data?.[0], data?.[1], data?.[2])
+        .invoke(
+          "SendRequest",
+          "35.65004306288284",
+          "51.403567096601826",
+          data?.[2]
+        )
         .then(console.log("done"));
     } catch (err) {
       console.log(err.message, "hi");
@@ -39,7 +44,10 @@ const TripListProvider = ({ children }) => {
         .then(() => {
           connection.on("broadcastTripToDriver", (signal) => {
             console.log(signal, "signal");
-            setTripList(signal);
+            // setTripList(...tripList, signal);
+          });
+          connection.on("BroadcastOutfitResultToPassnger", (signal) => {
+            console.log("passengerSignal", signal);
           });
         })
         .catch((e) => console.log("Connection failed: ", e));
