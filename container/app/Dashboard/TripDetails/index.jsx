@@ -46,41 +46,33 @@ function TripDetails({ markers }) {
   const { push } = useRouter();
   const { toggle, config } = useModal();
   const user = useUserState();
+
+  console.log(user)
   //
   const postTripTripRequest = usePostTripTripRequest();
   const handleSubmit = (values) => {
-    console.log({
-      sourceAndDest: {
-        id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        sLongitude: 51.4152,
-        sLatitude: 35.6872,
-        dLongitude: +markers?.[1].lng,
-        dLatitude: +markers?.[1].lat,
+    
+    postTripTripRequest.mutate(
+      {
+        sourceAndDest: {
+          id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          sLongitude: 51.4152,
+          sLatitude: 35.6872,
+          dLongitude: +markers?.[1].lng,
+          dLatitude: +markers?.[1].lat,
+        },
+        passesNum: 3 - values.passesNum,
+        passengerId: user?.passId,
       },
-      passesNum: 3 - values.passesNum,
-      passengerId: user?.passId,
-    });
-    // postTripTripRequest.mutate(
-    //   {
-    //     sourceAndDest: {
-    //       id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    //       sLongitude: 51.4152,
-    //       sLatitude: 35.6872,
-    //       dLongitude: +markers?.[1].lng,
-    //       dLatitude: +markers?.[1].lat,
-    //     },
-    //     passesNum: 3 - values.passesNum,
-    //     passengerId: user?.passId,
-    //   },
-    //   {
-    //     onSuccess: (res) => {
-    //       toggle();
-    //     },
-    //     onError: (err) => {
-    //       console.log(err);
-    //     },
-    //   }
-    // );
+      {
+        onSuccess: (res) => {
+          toggle();
+        },
+        onError: (err) => {
+          console.log(err);
+        },
+      }
+    );
   };
   //
   const formik = useFormik({

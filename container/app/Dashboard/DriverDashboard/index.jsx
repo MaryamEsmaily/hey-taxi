@@ -27,21 +27,21 @@ function DriverDashboard() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setStatus(null);
-          axios
-            .get("https://api.neshan.org/v4/reverse", {
-              params: {
-                ...{
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude,
-                },
-              },
-              headers: {
-                "Api-Key": "service.7f87d05ab66c440098e036b97f3dd1b1",
-              },
-            })
-            .then((res) => {
-              setDriverLocation(res?.data?.formatted_address);
-            });
+          // axios
+          //   .get("https://api.neshan.org/v4/reverse", {
+          //     params: {
+          //       ...{
+          //         lat: position.coords.latitude,
+          //         lng: position.coords.longitude,
+          //       },
+          //     },
+          //     headers: {
+          //       "Api-Key": "service.7f87d05ab66c440098e036b97f3dd1b1",
+          //     },
+          //   })
+          //   .then((res) => {
+          //     setDriverLocation(res?.data?.formatted_address);
+          //   });
           setLat(position.coords.latitude?.toString());
           setLng(position.coords.longitude?.toString());
         },
