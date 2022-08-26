@@ -44,7 +44,7 @@ const TripListProvider = ({ children }) => {
         .then(() => {
           connection.on("broadcastTripToDriver", (signal) => {
             console.log(signal, "signal");
-            // setTripList(...tripList, signal);
+            setTripList(...tripList, signal);
           });
           connection.on("BroadcastOutfitResultToPassnger", (signal) => {
             console.log("passengerSignal", signal);

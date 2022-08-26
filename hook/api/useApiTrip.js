@@ -5,4 +5,8 @@ const usePostTripTripRequest = () => {
   return useMutation(apiTrip.postTripTripRequest);
 };
 
-export { usePostTripTripRequest };
+const usePostTripCreateTrip = () => {
+  return useMutation(apiTrip.postTripCreateTrip);
+};
+
+export { usePostTripTripRequest,usePostTripCreateTrip };

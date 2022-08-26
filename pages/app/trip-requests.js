@@ -6,36 +6,40 @@ import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 import { useTripRequestsCtx } from "hook/useSocket";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
+import { usePostTripCreateTrip } from "hook/api/useApiTrip";
+import { useUserState } from "hook/useUser";
 //
+
+const initialValues = {
+  driverId:'',
+  pretripId:''
+}
+
 function TripRequests() {
   const { tripList } = useTripRequestsCtx();
   //
   const { push } = useRouter();
+  const user = useUserState();
+
+
+  console.log(tripList)
+  const postTripCreateTrip =usePostTripCreateTrip()
 
   const handleSubmit = (values) => {
-    // push("/app/start-trip")
-    // postAuthLogin.mutate(values, {
-    //   onSuccess: (res) => {
-    //     setUser({
-    //       username: res?.value.user.username,
-    //       id: res?.value.passOrDriverId,
-    //       userId: res?.value.user.id,
-    //       role: res?.value.user.role,
-    //       phoneNo: res?.value.user.phoneNo,
-    //       gender: res?.value.user.gender,
-    //     });
-    //     login({
-    //       userId: res?.value.user.id,
-    //       passOrDriverId: res?.value.passOrDriverId,
-    //     });
-    //     toast.success({ res });
-    //     push("/app/dashboard");
-    //     startConnection();
-    //   },
-    //   onError: (err) => {
-    //     toast.error({ err });
-    //   },
-    // });
+    //
+    postTripCreateTrip.mutate({
+
+      driverId:user?.id,
+      pretripId:''
+    }, {
+      onSuccess: (res) => {
+        
+        push("/app/start-trip")
+      },
+      onError: (err) => {
+        toast.error({ err });
+      },
+    });
   };
 
   const formik = useFormik({
@@ -117,7 +121,7 @@ function TripRequests() {
                   </Typography>
                 </Box>
                 <Box textAlign="end" mt={2}>
-                  <Button size="small" color="success" type="submit">
+                  <Button size="small" color="success" onClick={()=>handleSubmit()}>
                     قبول
                   </Button>
                 </Box>
