@@ -143,7 +143,7 @@ const GetDriverLocation = () => {
               query: {
                 lat: markers?.[0]?.lat,
                 lng: markers?.[0]?.lng,
-                id: user?.id,
+                driverId: user?.id,
               },
             });
             SendRequest([markers?.[0]?.lat, markers?.[0]?.lng, user?.id]);
