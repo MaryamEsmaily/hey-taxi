@@ -26,31 +26,30 @@ function TripRequests() {
 
   useEffect(() => {
     if (isConnected && query && isReady) {
-      SendRequest(query);
+      SendRequest([query?.lat,query.lng,query?.driverId]);
     }
   }, [query, isConnected, isReady]);
 
   const handleSubmit = (trip) => {
     const queryData = { ...trip, ...query };
-    push({
-      pathname: "/app/start-trip",
-      query: queryData,
-    });
-    // postTripCreateTrip.mutate(
-    //   {
-    //     driverId: user?.id,
-    //     pretripId: trip?.id,
-    //   },
-    //   {
-    //     onSuccess: (res) => {
-    //       console.log(res);
-
-    //   },
-    //   onError: (err) => {
-    //     toast.error({ err });
-    //   },
-    // }
-    // );
+    
+    postTripCreateTrip.mutate(
+      {
+        driverId: user?.id,
+        pretripId: trip?.id,
+      },
+      {
+        onSuccess: (res) => {
+          push({
+            pathname: "/app/start-trip",
+            query: queryData,
+          });
+      },
+      onError: (err) => {
+        toast.error({ err });
+      },
+    }
+    );
   };
   //
   return (
