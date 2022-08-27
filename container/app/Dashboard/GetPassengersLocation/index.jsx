@@ -1,17 +1,6 @@
-import { useEffect, useState } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMapEvents,
-} from "react-leaflet";
+import { useEffect, useRef, useState } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Fab from "@mui/material/Fab";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ClearIcon from "@mui/icons-material/Clear";
-import axios from "axios";
 import { Button, IconButton, Stack, Typography } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
@@ -19,52 +8,117 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useUserState } from "hook/useUser";
 import { useTripRequestsCtx } from "hook/useSocket";
 import { useRouter } from "next/router";
-
-function Events({ onClick }) {
-  const map = useMapEvents({
-    click: (e) => {
-      axios
-        .get("https://api.neshan.org/v4/reverse", {
-          params: {
-            ...e.latlng,
-          },
-          headers: {
-            "Api-Key": "service.0b631c6844834fe283ab06a157404729",
-          },
-        })
-        .then((res) => {
-          onClick({ ...e, formatted_address: res?.data?.formatted_address });
-        });
-    },
-  });
-  return null;
-}
+import GpsFixedIcon from "@mui/icons-material/GpsFixed";
+import LooksOneIcon from "@mui/icons-material/LooksOne";
+import LooksTwoIcon from "@mui/icons-material/LooksTwo";
+import Looks3Icon from "@mui/icons-material/Looks3";
+import Filter1Icon from "@mui/icons-material/Filter1";
+import Filter2Icon from "@mui/icons-material/Filter2";
+import Filter3Icon from "@mui/icons-material/Filter3";
+import RoutingMachine from "./RoutingMachine";
 
 const GetPassengersLocation = () => {
   //
-  const { push } = useRouter();
+  const { push, query, isReady } = useRouter();
   //
   const { SendRequest } = useTripRequestsCtx();
   const user = useUserState();
   //
-  const [status, setStatus] = useState(0);
   const [markers, setMarkers] = useState([]);
-  //
-  const handleClick = (location) => {
-    if (status === 0) {
-      setStatus(1);
-      setMarkers([
-        {
-          ...location.latlng,
-          formatted_address: location?.formatted_address,
-          type: 1,
-        },
-      ]);
-      return;
-    }
-  };
+  const [mapMarker, setMapMarker] = useState([]);
   //
 
+  useEffect(() => {
+    if (query && isReady)
+      setMarkers([
+        {
+          lat: query?.sLatitude1,
+          lng: query?.sLongitude1,
+        },
+        {
+          lat: query?.sLatitude2,
+          lng: query?.sLongitude2,
+        },
+        {
+          lat: query?.sLatitude3,
+          lng: query?.sLongitude3,
+        },
+        {
+          lat: query?.dLatitude1,
+          lng: query?.dLongitude1,
+        },
+        {
+          lat: query?.dLatitude2,
+          lng: query?.dLongitude2,
+        },
+        {
+          lat: query?.dLatitude3,
+          lng: query?.dLongitude3,
+        },
+      ]);
+    setMapMarker([
+      {
+        lat: query?.sLatitude1,
+        lng: query?.sLongitude1,
+        username: query?.username1,
+        detail: "مبدا",
+        Icon: <LooksOneIcon />,
+      },
+      {
+        lat: query?.sLatitude2,
+        lng: query?.sLongitude2,
+        username: query?.username2,
+        detail: "مبدا",
+        Icon: <LooksTwoIcon />,
+      },
+      {
+        lat: query?.sLatitude3,
+        lng: query?.sLongitude3,
+        username: query?.username3,
+        detail: "مبدا",
+        Icon: <Looks3Icon />,
+      },
+      {
+        lat: query?.dLatitude1,
+        lng: query?.dLongitude1,
+        username: query?.username1,
+        detail: "مقصد",
+        Icon: <Filter1Icon />,
+      },
+      {
+        lat: query?.dLatitude2,
+        lng: query?.dLongitude2,
+        username: query?.username1,
+        detail: "مقصد",
+        Icon: <Filter2Icon />,
+      },
+      {
+        lat: query?.dLatitude3,
+        lng: query?.dLongitude3,
+        username: query?.username3,
+        detail: "مقصد",
+        Icon: <Filter3Icon />,
+      },
+      {
+        lat: query?.lat,
+        lng: query?.lng,
+        username: "شما",
+        detail: "موقعیت  ",
+        Icon: <GpsFixedIcon />,
+      },
+    ]);
+  }, [isReady, query]);
+
+  //
+  const routingMachineRef = useRef();
+  const pluginRef = useRef();
+  const [map, setMap] = useState(null);
+  useEffect(() => {
+    if (!map) return;
+    const controlContainer = routingMachineRef.current.onAdd(map);
+    pluginRef.current.appendChild(controlContainer);
+  }, [map]);
+  //
   return (
     <>
       <Box
@@ -89,26 +143,6 @@ const GetPassengersLocation = () => {
           <ArrowBackIosNewIcon color="warning" variant="h6" />
         </IconButton>
       </Box>
-      {markers.length ? (
-        <Fab
-          color="warning"
-          sx={{
-            position: "fixed",
-            right: "10px",
-            top: "80px",
-            zIndex: 99999999999,
-          }}
-          onClick={() => {
-            setMarkers((prev) => {
-              const newArr = JSON.parse(JSON.stringify(prev));
-              setStatus(newArr.pop().type - 1);
-              return newArr;
-            });
-          }}
-        >
-          {markers.length === 1 ? <ClearIcon /> : <ArrowBackIcon />}
-        </Fab>
-      ) : null}
 
       <Box
         sx={{
@@ -127,19 +161,19 @@ const GetPassengersLocation = () => {
         <Typography fontSize={24}>مشخصات سفر</Typography>
         <Stack direction="row" justifyContent="space-evenly">
           <Box>
-            <Typography>نام مسافر:</Typography>
-            <Typography>شماره تماس:</Typography>
-            <Typography> هزینه سفر:</Typography>
+            <Typography>نام مسافر: {query?.username1}</Typography>
+            <Typography>شماره تماس: {query?.phoneNo1}</Typography>
+            <Typography> هزینه سفر: {query?.price1}</Typography>
           </Box>
           <Box>
-            <Typography>نام مسافر:</Typography>
-            <Typography>شماره تماس:</Typography>
-            <Typography> هزینه سفر:</Typography>
+            <Typography>نام مسافر: {query?.username2 || "-"}</Typography>
+            <Typography>شماره تماس: {query?.phoneNo2 || "-"}</Typography>
+            <Typography> هزینه سفر: {query?.price2 || "-"}</Typography>
           </Box>
           <Box>
-            <Typography>نام مسافر:</Typography>
-            <Typography>شماره تماس:</Typography>
-            <Typography> هزینه سفر:</Typography>
+            <Typography>نام مسافر: {query?.username3 || "-"}</Typography>
+            <Typography>شماره تماس: {query?.phoneNo3 || "-"}</Typography>
+            <Typography> هزینه سفر: {query?.price3 || "-"}</Typography>
           </Box>
         </Stack>
         <Box textAlign="end">
@@ -157,21 +191,22 @@ const GetPassengersLocation = () => {
       <MapContainer
         center={[35.65500011058058, 51.39948005533141]}
         zoom={7}
-        scrollWheelZoom={false}
+        scrollWheelZoom={true}
+        whenCreated={setMap}
         style={{ height: "calc(100vh - 70px)" }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Events onClick={handleClick} />
-        {markers.map((marker, i) => {
+        {/* {mapMarker?.map((marker, i) => {
           return (
             <Marker key={i} position={[marker.lat, marker.lng]}>
-              <Popup>{marker.lat + " " + marker.lng}</Popup>
+              <Popup>{marker?.detail + " " + marker.username}</Popup>
             </Marker>
           );
-        })}
+        })} */}
+        <RoutingMachine markers={markers} ref={routingMachineRef} map={map} />
       </MapContainer>
     </>
   );

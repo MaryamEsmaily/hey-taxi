@@ -1,5 +1,4 @@
 import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
-import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
@@ -7,18 +6,17 @@ import { useTripRequestsCtx } from "hook/useSocket";
 import { useRouter } from "next/router";
 import { usePostTripCreateTrip } from "hook/api/useApiTrip";
 import { useUserState } from "hook/useUser";
-
 import useGetLocationName from "hook/useGetLocationName";
-//
+import useToast from "hook/useToast";
 
+const ItemForMap = ({ latLng }) => {
+  const name = useGetLocationName(latLng);
+  return <>{name}</>;
+};
+//
 function TripRequests() {
   //
-
-  // const Item = (latLng) => {
-  //   return useGetLocationName(latLng);
-  // };
-  //
-
+  const toast = useToast();
   const { tripList, isConnected, SendRequest } = useTripRequestsCtx();
   //
   const { push, query, isReady } = useRouter();
@@ -32,25 +30,28 @@ function TripRequests() {
     }
   }, [query, isConnected, isReady]);
 
-  const handleSubmit = (id) => {
-    //
-    postTripCreateTrip.mutate(
-      {
-        driverId: user?.id,
-        pretripId: id,
-      },
-      {
-        onSuccess: (res) => {
-          console.log(res);
-          // push("/app/start-trip");
-        },
-        onError: (err) => {
-          toast.error({ err });
-        },
-      }
-    );
-  };
+  const handleSubmit = (trip) => {
+    const queryData = { ...trip, ...query };
+    push({
+      pathname: "/app/start-trip",
+      query: queryData,
+    });
+    // postTripCreateTrip.mutate(
+    //   {
+    //     driverId: user?.id,
+    //     pretripId: trip?.id,
+    //   },
+    //   {
+    //     onSuccess: (res) => {
+    //       console.log(res);
 
+    //   },
+    //   onError: (err) => {
+    //     toast.error({ err });
+    //   },
+    // }
+    // );
+  };
   //
   return (
     <Box
@@ -111,22 +112,21 @@ function TripRequests() {
                   <Typography color="gray" width="120px">
                     محدوده مبدا:{" "}
                   </Typography>
-                  <Typography>
-                    {/* {Item({ lat: trip?.sLatitude1, lng: trip?.sLongitude1 })} */}
-                  </Typography>
-
+                  <ItemForMap
+                    latLng={{ lat: trip?.sLatitude1, lng: trip?.sLongitude1 }}
+                  />
                   <Typography textAlign="center">{trip?.origin} </Typography>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Typography color="gray" width="120px">
                     محدوده مقصد:{" "}
                   </Typography>
-                  <Typography textAlign="center">
-                    {/* {Item({
+                  <ItemForMap
+                    latLng={{
                       lat: trip?.dLatitude1,
                       lng: trip?.dLongitude1,
-                    })} */}
-                  </Typography>
+                    }}
+                  />
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <Typography color="gray" width="120px">
@@ -138,7 +138,7 @@ function TripRequests() {
                   <Button
                     size="small"
                     color="success"
-                    onClick={() => handleSubmit(trip?.id)}
+                    onClick={() => handleSubmit(trip)}
                   >
                     قبول
                   </Button>
