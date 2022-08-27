@@ -47,11 +47,9 @@ function TripDetails({ markers }) {
   const { toggle, config } = useModal();
   const user = useUserState();
 
-  console.log(user)
   //
   const postTripTripRequest = usePostTripTripRequest();
   const handleSubmit = (values) => {
-    
     postTripTripRequest.mutate(
       {
         sourceAndDest: {
@@ -260,15 +258,6 @@ function TripDetails({ markers }) {
               color="neutral"
             >
               ثبت درخواست
-            </Button>
-            <Button
-              fullWidth
-              sx={{ borderRadius: "50px", mt: 1 }}
-              color="neutral"
-              variant="text"
-              onClick={() => formik.resetForm()}
-            >
-              لغو
             </Button>
           </Box>
         </Box>

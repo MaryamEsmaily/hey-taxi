@@ -11,4 +11,4 @@ const postTripCreateTrip = async (params) => {
   return data;
 };
 
-export { postTripTripRequest,postTripCreateTrip };
+export { postTripTripRequest, postTripCreateTrip };

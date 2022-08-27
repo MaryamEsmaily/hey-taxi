@@ -63,6 +63,7 @@ const GetDriverLocation = () => {
       return;
     }
   };
+
   //
 
   return (
@@ -137,8 +138,15 @@ const GetDriverLocation = () => {
         <Button
           size="small"
           onClick={() => {
-            SendRequest([markers?.lat, markers?.lng, user?.id]);
-            push("/app/trip-requests");
+            push({
+              pathname: "/app/trip-requests",
+              query: {
+                lat: markers?.[0]?.lat,
+                lng: markers?.[0]?.lng,
+                id: user?.id,
+              },
+            });
+            SendRequest([markers?.[0]?.lat, markers?.[0]?.lng, user?.id]);
           }}
         >
           تایید

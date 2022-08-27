@@ -6,7 +6,9 @@ import cookie from "js-cookie";
 
 const TripListProvider = ({ children }) => {
   const [connection, setConnection] = useState(null);
-  const [tripList, setTripList] = useState();
+  const [tripList, setTripList] = useState([]);
+  const [isConnected, setIsConnected] = useState(false);
+  const [requestStatus, setRequestStatus] = useState();
   //
   const SendRequest = async (data) => {
     try {
@@ -42,12 +44,14 @@ const TripListProvider = ({ children }) => {
       connection
         .start()
         .then(() => {
+          setIsConnected(true);
           connection.on("broadcastTripToDriver", (signal) => {
-            console.log(signal, "signal");
+            console.log(signal, "signal", [...tripList, signal]);
             setTripList(...tripList, signal);
           });
           connection.on("BroadcastOutfitResultToPassnger", (signal) => {
             console.log("passengerSignal", signal);
+            setRequestStatus(signal);
           });
         })
         .catch((e) => console.log("Connection failed: ", e));
@@ -65,9 +69,12 @@ const TripListProvider = ({ children }) => {
     <SendTripCtx.Provider
       value={{
         connectionStop,
+        connection,
         SendRequest,
         startConnection,
         tripList,
+        requestStatus,
+        isConnected,
       }}
     >
       <SetupSocket />

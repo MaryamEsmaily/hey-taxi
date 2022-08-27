@@ -113,7 +113,10 @@ function DriverDashboard() {
           <Button
             onClick={() => {
               SendRequest([lat, lng, user?.id]);
-              push("/app/trip-requests");
+              push({
+                pathname: "/app/trip-requests",
+                query: { lat, lng, id: user?.id },
+              });
             }}
             fullWidth
             size="large"
