@@ -10,5 +10,9 @@ const postTripCreateTrip = async (params) => {
   const { data } = await instance.post(BASE_URL + "CreateTrip", params);
   return data;
 };
+const postTripCancelTrip = async (params) => {
+  const { data } = await instance.post(BASE_URL + "CancelTrip", params);
+  return data;
+};
 
-export { postTripTripRequest, postTripCreateTrip };
+export { postTripTripRequest, postTripCreateTrip, postTripCancelTrip };

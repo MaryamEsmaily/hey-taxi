@@ -7,13 +7,37 @@ import {
   Typography,
 } from "@mui/material";
 import Modal from "components/custom/Modal";
+import { usePostTripCancelTrip } from "hook/api/useApiTrip";
 import { useTripRequestsCtx } from "hook/useSocket";
+import useToast from "hook/useToast";
+import { useUserState } from "hook/useUser";
 import React, { useEffect, useState } from "react";
 //
 function ModalSearchingForTripper({ config, passengerNum }) {
+  const toast = useToast();
   const { requestStatus } = useTripRequestsCtx();
 
   const [status, setStatus] = useState();
+
+  const postTripCancelTrip = usePostTripCancelTrip();
+  const user = useUserState();
+
+  const handleCancel = () => {
+    postTripCancelTrip.mutate(
+      {
+        passengerId: user?.passId,
+      },
+      {
+        onSuccess: (res) => {
+          config.toggle();
+          toast.success({ res });
+        },
+        onError: (err) => {
+          toast.error({ err });
+        },
+      }
+    );
+  };
 
   useEffect(() => {
     switch (requestStatus) {
@@ -68,7 +92,7 @@ function ModalSearchingForTripper({ config, passengerNum }) {
             <Button
               sx={{ borderRadius: "50px", px: 7 }}
               color="error"
-              onClick={() => config.toggle()}
+              onClick={handleCancel}
             >
               لغو
             </Button>
