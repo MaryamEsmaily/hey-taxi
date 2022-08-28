@@ -112,7 +112,10 @@ function TripDetails({ markers }) {
 
   return (
     <>
-      <ModalSearchingForTripper config={config} />
+      <ModalSearchingForTripper
+        config={config}
+        passengerNum={formik?.values.passesNum}
+      />
       <Box pt={5} px={6} sx={{ bgcolor: "background.paper" }} height="100%">
         <Box
           mb={8}

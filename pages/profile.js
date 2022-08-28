@@ -32,7 +32,7 @@ const LightTooltip = styled(({ className, ...props }) => (
 
 function Profile() {
   const user = useUserState();
-  const { push } = useRouter();
+  const { push, back } = useRouter();
 
   const { logout } = useUser();
 
@@ -66,7 +66,7 @@ function Profile() {
               alignItems: "center",
             }}
           >
-            <IconButton onClick={() => push("/app/dashboard")}>
+            <IconButton onClick={() => back()}>
               <ArrowForwardIosIcon sx={{ color: "white" }} variant="h6" />
             </IconButton>
             <Typography color="white" fontWeight="bold">

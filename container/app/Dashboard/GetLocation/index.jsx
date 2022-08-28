@@ -155,7 +155,7 @@ const GetDriverLocation = () => {
       <MapContainer
         center={[35.65500011058058, 51.39948005533141]}
         zoom={7}
-        scrollWheelZoom={false}
+        scrollWheelZoom={true}
         style={{ height: "calc(100vh - 70px)" }}
       >
         <TileLayer

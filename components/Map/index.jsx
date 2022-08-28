@@ -71,7 +71,7 @@ const MyMap = ({ setMarkers, markers }) => {
             position: "fixed",
             left: "10px",
             top: "10px",
-            zIndex: 99999999999,
+            zIndex: 10000,
           }}
           onClick={() => {
             setMarkers((prev) => {
@@ -88,7 +88,7 @@ const MyMap = ({ setMarkers, markers }) => {
       <MapContainer
         center={[35.65500011058058, 51.39948005533141]}
         zoom={13}
-        scrollWheelZoom={false}
+        scrollWheelZoom={true}
         style={{ height: "100vh" }}
         whenCreated={setMap}
       >

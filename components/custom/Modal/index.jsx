@@ -9,9 +9,14 @@ function Modal({ children, config, showCloseButton = true }) {
     <Dialog
       fullWidth
       open={isShowing ?? false}
-      onClose={toggle}
+      onClose={(_, reason) => {
+        if (reason !== "backdropClick") {
+          toggle();
+        }
+      }}
       sx={{ textAlign: "end" }}
       scroll="body"
+      disableEscapeKeyDown
     >
       {showCloseButton ? (
         <Box p={1}>
