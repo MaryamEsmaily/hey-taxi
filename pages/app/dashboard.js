@@ -11,9 +11,9 @@ function DashboardPage() {
   return (
     <>
       {/* {user?.role === 1 ? ( */}
-      <PassengerDashboard />
+      {/* <PassengerDashboard /> */}
+      <DriverDashboard />
       {/* ) : user?.role === 2 ? (
-        <DriverDashboard />
       ) : (
         <Box
           sx={{
