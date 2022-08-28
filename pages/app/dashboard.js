@@ -10,9 +10,9 @@ function DashboardPage() {
 
   return (
     <>
-      {user?.role === 1 ? (
-        <PassengerDashboard />
-      ) : user?.role === 2 ? (
+      {/* {user?.role === 1 ? ( */}
+      <PassengerDashboard />
+      {/* ) : user?.role === 2 ? (
         <DriverDashboard />
       ) : (
         <Box
@@ -26,7 +26,7 @@ function DashboardPage() {
         >
           <CircularProgress color="warning" />
         </Box>
-      )}
+      )} */}
     </>
   );
 }
