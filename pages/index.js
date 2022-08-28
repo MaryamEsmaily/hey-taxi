@@ -1,5 +1,4 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import Menu from "container/home/Menu";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
