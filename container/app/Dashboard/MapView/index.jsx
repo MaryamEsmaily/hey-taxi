@@ -5,7 +5,7 @@ import React from "react";
 const Map = dynamic(() => import("components/Map"), { ssr: false });
 function MapView({ setMarkers, markers }) {
   return (
-    <Box overflow="hidden" height="100vh">
+    <Box overflow="hidden" height="100vh" width="100vw">
       <Map setMarkers={setMarkers} markers={markers} />
     </Box>
   );

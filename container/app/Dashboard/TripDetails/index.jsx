@@ -8,6 +8,7 @@ import {
   IconButton,
   Checkbox,
   FormControlLabel,
+  Grid,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -116,44 +117,51 @@ function TripDetails({ markers }) {
         config={config}
         passengerNum={formik?.values.passesNum}
       />
-      <Box pt={5} px={6} sx={{ bgcolor: "background.paper" }} height="100%">
-        <Box
-          mb={8}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <IconButton onClick={() => push("/profile")}>
-            <AccountCircleOutlinedIcon color="warning" />
-          </IconButton>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <LocalTaxiIcon color="warning" sx={{ fontSize: 20 }} />
-            <Typography>هی تاکسی!</Typography>
+      <Box
+        zIndex={999}
+        position="fixed"
+        top="10px"
+        left="50%"
+        sx={{ bgcolor: "background.paper", transform: "translateX(-50%)" }}
+        display="flex"
+        alignItems="center"
+        width="90%"
+        maxWidth="600px"
+        height="70px"
+        justifyContent="space-between"
+        px="20px"
+        boxShadow="0 6px 15px 0 rgb(0 0 0 / 10%)"
+        borderRadius="8px"
+      >
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <LocalTaxiIcon color="warning" sx={{ fontSize: 35, mr: 2 }} />
+          <Box>
+            <Typography fontSize="16px">هی تاکسی!</Typography>
+            <Typography fontSize="12px" color="rgb(0,0,0,0.4)">
+              سامانه درخواست خودرو
+            </Typography>
           </Box>
         </Box>
+        <IconButton onClick={() => push("/profile")}>
+          <AccountCircleOutlinedIcon color="warning" />
+        </IconButton>
+      </Box>
+      <Box
+        zIndex={999}
+        position="fixed"
+        bottom="10px"
+        left="50%"
+        p="20px"
+        sx={{ bgcolor: "background.paper", transform: "translateX(-50%)" }}
+        boxShadow="0 6px 15px 0 rgb(0 0 0 / 10%)"
+        borderRadius="8px"
+        width="90%"
+        maxWidth="600px"
+      >
         <Box component="form" onSubmit={formik.handleSubmit}>
-          <Typography
-            fontSize="24px"
-            sx={{
-              textAlign: "center",
-            }}
-            mb={3}
-          >
-            مشخصات مسیر
-          </Typography>
-          <Box
-            mb={8}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-around",
-            }}
-          >
-            <Box px={2}>
+          <Grid container spacing={0} p="0" alignItems={"center"}>
+            <Grid item xs={12}>
               <TextField
-                sx={{ mb: 2 }}
                 placeholder="مبدا"
                 InputProps={{
                   readOnly: true,
@@ -165,6 +173,8 @@ function TripDetails({ markers }) {
                 }}
                 value={origin}
               />
+            </Grid>
+            <Grid item xs={12}>
               <TextField
                 placeholder="مقصد"
                 InputProps={{
@@ -177,92 +187,63 @@ function TripDetails({ markers }) {
                 }}
                 value={destination}
               />
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <CircleIcon color="warning" sx={{ fontSize: 8 }} />
-              <Divider
-                orientation="vertical"
-                sx={{ height: 45, borderColor: "#ffc73f" }}
-                variant="middle"
+            </Grid>
+            <Grid item xs={6}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    sx={{
+                      color: "orange",
+                      "&.Mui-checked": {
+                        color: "orange",
+                      },
+                    }}
+                    checked={checked}
+                    onChange={(e) => {
+                      setChecked(e.target.checked);
+                      formik.setFieldValue("passesNum", 3);
+                    }}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                }
+                label="همسفر نمی خواهم"
               />
-              <SquareIcon color="warning" sx={{ fontSize: 8 }} />
-            </Box>
-          </Box>
-          <Typography
-            fontSize="24px"
-            my={3}
-            sx={{
-              textAlign: "center",
-            }}
-          >
-            تعداد نفرات
-          </Typography>
-          <TextField
-            type="number"
-            defaultValue={1}
-            InputProps={{
-              disabled: checked ? true : false,
-              readOnly: checked ? true : false,
-              inputProps: { min: 1, max: 3 },
-              startAdornment: (
-                <InputAdornment position="start">
-                  <PeopleAltOutlinedIcon color="warning" />
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              pl: 2,
-              pr: 3,
-
-              textAlign: "center",
-              "*::-webkit-inner-spin-button": {
-                opacity: 1,
-              },
-              "*::-webkit-outer-spin-button": {
-                opacity: 1,
-              },
-              "& input": {
-                textAlign: "center",
-              },
-            }}
-            {...formik.getFieldProps("passesNum")}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                type="number"
+                defaultValue={1}
+                InputProps={{
+                  disabled: checked ? true : false,
+                  readOnly: checked ? true : false,
+                  inputProps: { min: 1, max: 3 },
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PeopleAltOutlinedIcon color="warning" />
+                    </InputAdornment>
+                  ),
+                }}
                 sx={{
-                  color: "orange",
-                  "&.Mui-checked": {
-                    color: "orange",
+                  textAlign: "center",
+                  "*::-webkit-inner-spin-button": {
+                    opacity: 1,
+                  },
+                  "*::-webkit-outer-spin-button": {
+                    opacity: 1,
+                  },
+                  "& input": {
+                    textAlign: "center",
                   },
                 }}
-                checked={checked}
-                onChange={(e) => {
-                  setChecked(e.target.checked);
-                  formik.setFieldValue("passesNum", 3);
-                }}
-                inputProps={{ "aria-label": "controlled" }}
+                {...formik.getFieldProps("passesNum")}
               />
-            }
-            label="همسفر نمی خواهم"
-          />
-          <Box pl={2} pr={3} mt={5}>
-            <Button
-              type="submit"
-              fullWidth
-              sx={{ borderRadius: "50px" }}
-              color="neutral"
-            >
-              ثبت درخواست
-            </Button>
-          </Box>
+            </Grid>
+            <Grid item xs={12} pt={1}>
+              <Button type="submit" fullWidth color="neutral" size="large">
+                ثبت درخواست
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
     </>
