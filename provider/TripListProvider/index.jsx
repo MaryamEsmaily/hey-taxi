@@ -47,7 +47,7 @@ const TripListProvider = ({ children }) => {
           setIsConnected(true);
           connection.on("broadcastTripToDriver", (signal) => {
             console.log(signal, "signal", [...tripList, signal]);
-            setTripList(...tripList, signal);
+            setTripList([...tripList, ...signal]);
           });
           connection.on("BroadcastOutfitResultToPassnger", (signal) => {
             console.log("passengerSignal", signal);
