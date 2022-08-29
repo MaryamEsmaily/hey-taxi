@@ -7,12 +7,8 @@ function PassengerDashboard() {
   const [markers, setMarkers] = useState([]);
   return (
     <Grid container>
-      {/* <Grid item xs={9}> */}
       <MapView setMarkers={setMarkers} markers={markers} />
-      {/* </Grid> */}
-      {/* <Grid item xs={3}> */}
       <TripDetails markers={markers} />
-      {/* </Grid> */}
     </Grid>
   );
 }

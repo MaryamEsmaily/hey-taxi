@@ -32,7 +32,7 @@ const LightTooltip = styled(({ className, ...props }) => (
 
 function Profile() {
   const user = useUserState();
-  const { push, back } = useRouter();
+  const { back } = useRouter();
 
   const { logout } = useUser();
 

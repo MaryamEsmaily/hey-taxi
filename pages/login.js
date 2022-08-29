@@ -60,11 +60,6 @@ function LoginPage() {
   //
   return (
     <Box borderRadius="8px" width="100%" maxWidth={400} overflow="hidden">
-      {/* <Grid container height="504px"> */}
-      {/* <Grid item xs={6}>
-          <AuthPlacard />
-        </Grid> */}
-      {/* <Grid item xs={6}> */}
       <Box
         backgroundColor="#ffc73f"
         sx={{
@@ -117,8 +112,6 @@ function LoginPage() {
           </Box>
         </Box>
       </Box>
-      {/* </Grid> */}
-      {/* </Grid> */}
     </Box>
   );
 }

@@ -5,27 +5,18 @@ import { Button, IconButton, Stack, Typography } from "@mui/material";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { useUserState } from "hook/useUser";
-import { useTripRequestsCtx } from "hook/useSocket";
 import { useRouter } from "next/router";
-import GpsFixedIcon from "@mui/icons-material/GpsFixed";
-import LooksOneIcon from "@mui/icons-material/LooksOne";
-import LooksTwoIcon from "@mui/icons-material/LooksTwo";
-import Looks3Icon from "@mui/icons-material/Looks3";
-import Filter1Icon from "@mui/icons-material/Filter1";
-import Filter2Icon from "@mui/icons-material/Filter2";
-import Filter3Icon from "@mui/icons-material/Filter3";
 import RoutingMachine from "./RoutingMachine";
 
 const GetPassengersLocation = () => {
   //
   const { push, query, isReady } = useRouter();
   //
-  const { SendRequest } = useTripRequestsCtx();
-  const user = useUserState();
-  //
   const [markers, setMarkers] = useState([]);
-  const [mapMarker, setMapMarker] = useState([]);
+  //
+  const routingMachineRef = useRef();
+  const pluginRef = useRef();
+  const [map, setMap] = useState(null);
   //
 
   useEffect(() => {
@@ -56,63 +47,8 @@ const GetPassengersLocation = () => {
           lng: query?.dLongitude3,
         },
       ]);
-    setMapMarker([
-      {
-        lat: query?.sLatitude1,
-        lng: query?.sLongitude1,
-        username: query?.username1,
-        detail: "مبدا",
-        Icon: <LooksOneIcon />,
-      },
-      {
-        lat: query?.sLatitude2,
-        lng: query?.sLongitude2,
-        username: query?.username2,
-        detail: "مبدا",
-        Icon: <LooksTwoIcon />,
-      },
-      {
-        lat: query?.sLatitude3,
-        lng: query?.sLongitude3,
-        username: query?.username3,
-        detail: "مبدا",
-        Icon: <Looks3Icon />,
-      },
-      {
-        lat: query?.dLatitude1,
-        lng: query?.dLongitude1,
-        username: query?.username1,
-        detail: "مقصد",
-        Icon: <Filter1Icon />,
-      },
-      {
-        lat: query?.dLatitude2,
-        lng: query?.dLongitude2,
-        username: query?.username1,
-        detail: "مقصد",
-        Icon: <Filter2Icon />,
-      },
-      {
-        lat: query?.dLatitude3,
-        lng: query?.dLongitude3,
-        username: query?.username3,
-        detail: "مقصد",
-        Icon: <Filter3Icon />,
-      },
-      {
-        lat: query?.lat,
-        lng: query?.lng,
-        username: "شما",
-        detail: "موقعیت  ",
-        Icon: <GpsFixedIcon />,
-      },
-    ]);
   }, [isReady, query]);
-
   //
-  const routingMachineRef = useRef();
-  const pluginRef = useRef();
-  const [map, setMap] = useState(null);
   useEffect(() => {
     if (!map) return;
     const controlContainer = routingMachineRef.current.onAdd(map);
@@ -139,7 +75,7 @@ const GetPassengersLocation = () => {
           <LocalTaxiIcon color="warning" sx={{ fontSize: 20 }} />
           <Typography>هی تاکسی!</Typography>
         </Box>
-        <IconButton onClick={() => push("/app/dashboard")}>
+        <IconButton onClick={() => push("/app/trip-requests")}>
           <ArrowBackIosNewIcon color="warning" variant="h6" />
         </IconButton>
       </Box>
@@ -198,13 +134,6 @@ const GetPassengersLocation = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {/* {mapMarker?.map((marker, i) => {
-          return (
-            <Marker key={i} position={[marker.lat, marker.lng]}>
-              <Popup>{marker?.detail + " " + marker.username}</Popup>
-            </Marker>
-          );
-        })} */}
         <RoutingMachine markers={markers} ref={routingMachineRef} map={map} />
       </MapContainer>
     </>

@@ -4,13 +4,10 @@ import Image from "next/image";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 import { useRouter } from "next/router";
-import { useTripRequestsCtx } from "hook/useSocket";
 import axios from "axios";
 import { useUserState } from "hook/useUser";
 
 function DriverDashboard() {
-  //
-  const { SendRequest } = useTripRequestsCtx();
   //
   const { push } = useRouter();
   const [lat, setLat] = useState(null);

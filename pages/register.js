@@ -57,7 +57,7 @@ function RegisterPage() {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: handleSubmit,
-    // validationSchema: registerSchema,
+    validationSchema: registerSchema,
   });
 
   return (

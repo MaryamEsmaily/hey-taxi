@@ -1,5 +1,4 @@
 function calculatePrice(markers, passesNum) {
-  console.log(markers);
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(markers?.[1]?.lat - markers?.[0]?.lat); // deg2rad below
   var dLon = deg2rad(markers?.[1]?.lng - markers?.[0]?.lng);

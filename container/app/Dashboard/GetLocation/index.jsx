@@ -17,7 +17,6 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import LocalTaxiIcon from "@mui/icons-material/LocalTaxi";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useUserState } from "hook/useUser";
-import { useTripRequestsCtx } from "hook/useSocket";
 import { useRouter } from "next/router";
 
 function Events({ onClick }) {
@@ -44,7 +43,6 @@ const GetDriverLocation = () => {
   //
   const { push } = useRouter();
   //
-  const { SendRequest } = useTripRequestsCtx();
   const user = useUserState();
   //
   const [status, setStatus] = useState(0);
