@@ -4,8 +4,10 @@ import {
   CardActions,
   CardContent,
   CircularProgress,
+  Stack,
   Typography,
 } from "@mui/material";
+import { Box } from "@mui/system";
 import Modal from "components/custom/Modal";
 import { usePostTripCancelTrip } from "hook/api/useApiTrip";
 import { useTripRequestsCtx } from "hook/useSocket";
@@ -15,7 +17,7 @@ import React, { useEffect, useState } from "react";
 //
 function ModalSearchingForTripper({ config, passengerNum }) {
   const toast = useToast();
-  const { requestStatus } = useTripRequestsCtx();
+  const { requestStatus ,driverFound} = useTripRequestsCtx();
 
   const [status, setStatus] = useState();
 
@@ -38,6 +40,7 @@ function ModalSearchingForTripper({ config, passengerNum }) {
       }
     );
   };
+
 
   useEffect(() => {
     switch (requestStatus) {
@@ -62,6 +65,8 @@ function ModalSearchingForTripper({ config, passengerNum }) {
     }
   }, [requestStatus]);
 
+  
+
   return (
     <Modal showCloseButton={false} config={config}>
       <Card
@@ -71,8 +76,40 @@ function ModalSearchingForTripper({ config, passengerNum }) {
           padding: 5,
         }}
       >
+          {driverFound ? 
         <CardContent sx={{ textAlign: "center" }}>
-          <Typography variant="h5" textAlign={"center"} py={3}>
+           <Box>
+           <Typography variant="h5" textAlign={"center"} py={3}>
+           راننده درخواست شما را قبول کرد
+          </Typography>
+           <Stack direction='row' alignItems='center' justifyContent='space-evenly'>
+          <Typography width='150px'>اتومبیل:</Typography>
+          <Typography>{driverFound?.car}</Typography>
+          </Stack>
+           <Stack direction='row' alignItems='center' justifyContent='space-evenly'>
+          <Typography width='150px'>پلاک:</Typography>
+          <Typography>{driverFound?.carId}</Typography>
+          </Stack>
+           <Stack direction='row' alignItems='center' justifyContent='space-evenly'>
+          <Typography width='150px'>شماره موبایل:</Typography>
+          <Typography>{driverFound?.phoneNo}</Typography>
+          </Stack>
+           <Stack direction='row' alignItems='center' justifyContent='space-evenly'>
+          <Typography width='150px'>نام:</Typography>
+          <Typography>{driverFound?.username}</Typography>
+          </Stack>
+        </Box>  <CardActions sx={{ justifyContent: "center", px: 10,mt:5 }}>
+        
+            <Button
+              sx={{ borderRadius: "50px", px: 7 }}
+              color="error"
+              onClick={config.toggle}
+            >
+              تایید
+            </Button>
+        
+        </CardActions></CardContent>: <><CardContent sx={{ textAlign: "center" }}>
+        <Typography variant="h5" textAlign={"center"} py={3}>
             درخواست شما ثبت شد
           </Typography>
           {passengerNum === 3 ? (
@@ -83,12 +120,10 @@ function ModalSearchingForTripper({ config, passengerNum }) {
             <Typography variant="h6" textAlign={"center"} pb={1}>
               {status}
             </Typography>
-          )}
-
-          <CircularProgress color="warning" />
-        </CardContent>
-        <CardActions sx={{ justifyContent: "center", px: 10 }}>
-          {requestStatus !== 2 ? (
+            
+          ) } <CircularProgress color="warning" />
+          </CardContent> <CardActions sx={{ justifyContent: "center", px: 10 }}>
+          {requestStatus !== 2 && passengerNum !== 3 ? (
             <Button
               sx={{ borderRadius: "50px", px: 7 }}
               color="error"
@@ -97,7 +132,11 @@ function ModalSearchingForTripper({ config, passengerNum }) {
               لغو
             </Button>
           ) : null}
-        </CardActions>
+        </CardActions></> }
+          
+
+         
+       
       </Card>
     </Modal>
   );

@@ -10,6 +10,8 @@ const TripListProvider = ({ children }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [requestStatus, setRequestStatus] = useState();
   const [firstTime, setFirstTime] = useState(false);
+  const [driverFound  , setDriverFound  ] = useState();
+  
   //
   const SendRequest = async (data) => {
     try {
@@ -55,6 +57,10 @@ const TripListProvider = ({ children }) => {
             console.log("passengerSignal", signal);
             setRequestStatus(signal);
           });
+          connection.on("BroadcastDriverResultToPassnger", (signal) => {
+            console.log("ResultToPassnge", signal);
+            setDriverFound(signal);
+          });
         })
         .catch((e) => console.log("Connection failed: ", e));
     }
@@ -79,6 +85,7 @@ const TripListProvider = ({ children }) => {
         isConnected,
         setTripList,
         firstTime,
+        driverFound
       }}
     >
       <SetupSocket />
