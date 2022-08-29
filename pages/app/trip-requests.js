@@ -51,6 +51,7 @@ function TripRequests() {
     }
     );
   };
+  console.log(tripList)
   //
   return (
     <Box
