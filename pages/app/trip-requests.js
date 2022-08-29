@@ -22,17 +22,24 @@ function TripRequests() {
   const { push, query, isReady } = useRouter();
   const user = useUserState();
 
+  const [data, setData] = useState([]);
+  console.log(data);
+
   const postTripCreateTrip = usePostTripCreateTrip();
 
   useEffect(() => {
     if (isConnected && query && isReady) {
-      SendRequest([query?.lat,query.lng,query?.driverId]);
+      SendRequest([query?.lat, query.lng, query?.driverId]);
     }
   }, [query, isConnected, isReady]);
 
+  useEffect(() => {
+    if (tripList.length) setData((prev) => [...prev, tripList]);
+  }, [tripList]);
+
   const handleSubmit = (trip) => {
     const queryData = { ...trip, ...query };
-    
+
     postTripCreateTrip.mutate(
       {
         driverId: user?.id,
@@ -44,11 +51,11 @@ function TripRequests() {
             pathname: "/app/start-trip",
             query: queryData,
           });
-      },
-      onError: (err) => {
-        toast.error({ err });
-      },
-    }
+        },
+        onError: (err) => {
+          toast.error({ err });
+        },
+      }
     );
   };
   //
@@ -104,7 +111,7 @@ function TripRequests() {
         </Box>
 
         <Box height="70vh" overflow="auto" bgcolor="#e5e20029" borderRadius={2}>
-          {tripList?.map((trip) => (
+          {data?.map((trip) => (
             <Box key={trip?.id}>
               <Box p={2}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
