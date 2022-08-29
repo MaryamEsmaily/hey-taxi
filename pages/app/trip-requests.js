@@ -138,7 +138,11 @@ function TripRequests() {
                   <Typography color="gray" width="120px">
                     قیمت:
                   </Typography>
-                  <Typography textAlign="center">{trip?.price}</Typography>
+                  <Typography textAlign="center">
+                    {+trip?.Price1 +
+                      (+trip?.Price2 ? +trip?.Price2 : 0) +
+                      (+trip?.Price3 ? +trip?.Price3 : 0)}
+                  </Typography>
                 </Box>
                 <Box textAlign="end" mt={2}>
                   <Button
