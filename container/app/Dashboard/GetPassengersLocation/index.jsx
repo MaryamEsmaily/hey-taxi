@@ -180,7 +180,6 @@ const GetPassengersLocation = () => {
           <Button
             color="success"
             onClick={() => {
-              SendRequest([markers?.lat, markers?.lng, user?.id]);
               push("/app/trip-requests");
             }}
           >

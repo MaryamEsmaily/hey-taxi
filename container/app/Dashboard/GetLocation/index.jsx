@@ -146,7 +146,6 @@ const GetDriverLocation = () => {
                 driverId: user?.id,
               },
             });
-            SendRequest([markers?.[0]?.lat, markers?.[0]?.lng, user?.id]);
           }}
         >
           تایید

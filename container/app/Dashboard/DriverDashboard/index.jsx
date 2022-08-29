@@ -112,7 +112,6 @@ function DriverDashboard() {
         ) : (
           <Button
             onClick={() => {
-              SendRequest([lat, lng, user?.id]);
               push({
                 pathname: "/app/trip-requests",
                 query: { lat, lng, driverId: user?.id },

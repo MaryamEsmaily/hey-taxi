@@ -17,26 +17,20 @@ const ItemForMap = ({ latLng }) => {
 function TripRequests() {
   //
   const toast = useToast();
-  const { tripList, isConnected, SendRequest } = useTripRequestsCtx();
+  const { tripList, isConnected, SendRequest, firstTime } =
+    useTripRequestsCtx();
   //
   const { push, query, isReady } = useRouter();
   const user = useUserState();
 
-  const [data, setData] = useState([]);
-  console.log(data);
-
   const postTripCreateTrip = usePostTripCreateTrip();
 
   useEffect(() => {
-    if (isConnected && query && isReady) {
+    if (isConnected && query && isReady && !firstTime) {
       SendRequest([query?.lat, query.lng, query?.driverId]);
     }
-  }, [query, isConnected, isReady]);
-
-  useEffect(() => {
-    if (tripList.length) setData((prev) => [...prev, tripList]);
-  }, [tripList]);
-
+  }, [query, isConnected, isReady, firstTime]);
+  //
   const handleSubmit = (trip) => {
     const queryData = { ...trip, ...query };
 
@@ -58,7 +52,6 @@ function TripRequests() {
       }
     );
   };
-  console.log(tripList)
   //
   return (
     <Box
@@ -112,7 +105,7 @@ function TripRequests() {
         </Box>
 
         <Box height="70vh" overflow="auto" bgcolor="#e5e20029" borderRadius={2}>
-          {data?.map((trip) => (
+          {tripList?.map((trip) => (
             <Box key={trip?.id}>
               <Box p={2}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -140,9 +133,9 @@ function TripRequests() {
                     قیمت:
                   </Typography>
                   <Typography textAlign="center">
-                    {+trip?.Price1 +
-                      (+trip?.Price2 ? +trip?.Price2 : 0) +
-                      (+trip?.Price3 ? +trip?.Price3 : 0)}
+                    {+trip?.price1 +
+                      (+trip?.price2 ? +trip?.price2 : 0) +
+                      (+trip?.price3 ? +trip?.price3 : 0)}
                   </Typography>
                 </Box>
                 <Box textAlign="end" mt={2}>
