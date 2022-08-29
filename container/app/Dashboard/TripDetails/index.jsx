@@ -87,7 +87,7 @@ function TripDetails({ markers }) {
             ...markers?.[0],
           },
           headers: {
-            "Api-Key": "service.7f87d05ab66c440098e036b97f3dd1b1",
+            "Api-Key": "service.71e4b3742d254ed797f31bdec2a100401",
           },
         })
         .then((res) => {
@@ -102,7 +102,7 @@ function TripDetails({ markers }) {
             ...markers?.[1],
           },
           headers: {
-            "Api-Key": "service.7f87d05ab66c440098e036b97f3dd1b1",
+            "Api-Key": "service.71e4b3742d254ed797f31bdec2a10040",
           },
         })
         .then((res) => {
